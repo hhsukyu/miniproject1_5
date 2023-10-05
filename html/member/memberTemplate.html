@@ -16,6 +16,8 @@
   <link href="../../css/bootstrap.min.css" rel="stylesheet">
 
   <style>
+    @import url(reset.css);
+
     .bd-placeholder-img {
       font-size: 1.125rem;
       text-anchor: middle;
@@ -93,24 +95,49 @@
       display: block !important;
     }
 
-    .bg-image {
-      position: relative;
-      background-image: url(../../images/main.png);
-      background-repeat: no-repeat;
-      background-size: cover;
-      z-index: 0;
+    .member-content {
+      background-color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      height: auto;
     }
 
-    .bg-image::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-image: inherit;
-      filter: blur(5px);
-      z-index: -1;
+    .member-content-image {
+      margin: 10px;
+      padding-left: 20px;
+      padding-right: 20px;
+      background-color: green;
+      border-radius: 10px;
+      height: 350px;
+      width: 500px;
+    }
+
+    .member-content-description {
+      padding: 10px;
+      margin: 10px;
+      background-color: #acacac57;
+      border-radius: 10px;
+      height: 200px;
+      width: 500px;
+    }
+    .member-comment {
+      padding: 10px;
+      margin: 10px;
+      background-color:  #acacac57;
+      border-radius: 10px;
+      height: 150px;
+      width: 500px;
+    }
+
+    .member-comment-input {
+      padding: 10px;
+      margin: 10px;
+      background-color:  #acacac57;
+      border-radius: 10px;
+      height: 150px;
+      width: 500px;
     }
   </style>
 
@@ -119,7 +146,6 @@
 </head>
 
 <body>
-
   <!-- Nav -->
   <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
     <symbol id="aperture" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -176,71 +202,39 @@
 
   <!-- Main -->
   <main>
-    <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-image">
-      <div class="col-md-6 p-lg-5 mx-auto my-5">
-        <h1 class="display-3 fw-bold">오색조</h1>
-        <h5 class="fw-normal text-muted mb-3">팀 멤버 5명의 다양한 매력을 볼 수 있는 절호의 기회! <br>팀은 하나라의 의미로 저희 팀이 목표를 가지고 날아가는 새처럼 최선을
-          다하겠습니다.</h5>
-        <div class="d-flex gap-3 justify-content-center lead fw-normal">
+    <div>
+      <div class="member-content">
+        <div class="member-content-image" style="background-image: url(../../images/main.png);">
+        </div>
+        <div class="member-content-description">
+          <H3>제목</H3>
+          <p>내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ</p>
+        </div>
+        <div class="member-comment">
+          <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">홍길동</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="member-comment">
+          <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">홍길동</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="member-comment-input">
+          <div class="input-group input-group-lg">
+            <span class="input-group-text">Comment</span>
+            <textarea class="form-control" aria-label="With textarea"></textarea>
+          </div>
+          <div class="d-grid gap-2 d-md-block" style="padding-top: 10px;">
+            <button class="btn btn-primary" type="button">등록</button>
+            <button class="btn btn-success" type="button">수정</button>
+            <button class="btn btn-danger" type="button">삭제</button>
+          </div>
         </div>
       </div>
     </div>
-
-    <!-- 수경 -->
-    <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
-      <div class="text-bg-dark me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
-        <div class="my-3 py-3">
-          <h2 class="display-5">한수경</h2>
-          <p class="lead">And an even wittier subheading.</p>
-        </div>
-        <div class="shadow-sm mx-auto bg-image" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;">이미지
-        </div>
-      </div>
-      <!-- 수경 End-->
-
-      <!-- 성현 -->
-      <div class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
-        <div class="my-3 p-3">
-          <h2 class="display-5">허성현</h2>
-          <p class="lead">And an even wittier subheading.</p>
-        </div>
-        <div class="shadow-sm mx-auto bg-image" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;">이미지
-        </div>
-      </div>
-    </div>
-    <!-- 성현 End -->
-
-    <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
-      <div class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
-        <div class="my-3 p-3">
-          <h2 class="display-5">Another headline</h2>
-          <p class="lead">And an even wittier subheading.</p>
-        </div>
-        <div class="bg-dark shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
-      </div>
-
-      <div class="text-bg-primary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
-        <div class="my-3 py-3">
-          <h2 class="display-5">Another headline</h2>
-          <p class="lead">And an even wittier subheading.</p>
-        </div>
-        <div class="bg-body-tertiary shadow-sm mx-auto"
-          style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
-      </div>
-    </div>
-
-    <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
-      <div class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
-        <div class="my-3 p-3">
-          <h2 class="display-5">Another headline</h2>
-          <p class="lead">And an even wittier subheading.</p>
-        </div>
-        <div class="bg-dark shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
-      </div>
-
-      <div class="text-bg-primary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden" style="background-color: white;">
-
-      </div>
 
   </main>
   <!-- Main End -->
