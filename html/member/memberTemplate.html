@@ -14,6 +14,8 @@
   <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/product/">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
   <link href="../../css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="../../css/product.css" rel="stylesheet">
 
   <style>
     @import url(reset.css);
@@ -117,35 +119,135 @@
     .member-content-description {
       padding: 10px;
       margin: 10px;
-      background-color: #acacac57;
       border-radius: 10px;
-      height: 200px;
+      height: auto;
       width: 500px;
     }
+
     .member-comment {
       padding: 10px;
       margin: 10px;
-      background-color:  #acacac57;
       border-radius: 10px;
-      height: 150px;
+      height: auto;
       width: 500px;
     }
 
     .member-comment-input {
       padding: 10px;
       margin: 10px;
-      background-color:  #acacac57;
       border-radius: 10px;
       height: 150px;
       width: 500px;
     }
   </style>
-
-  <!-- Custom styles for this template -->
-  <link href="../../css/product.css" rel="stylesheet">
 </head>
 
 <body>
+  <script type="module">
+    import { db, collection, addDoc, getDocs } from "../../js/firebase.js";
+    import { query, orderBy, limit } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+    import { doc, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+    const createBtn = document.getElementById("createBtn");
+    const commentList = document.getElementById("commentList");
+    const commentValue = document.querySelector("#comment");
+    const deleteBtn = document.getElementById("deleteBtn");
+
+    // 덧글 리스트 가져오기
+    const getComment = async () => {
+
+      const comments = collection(db, "comments");
+      const sortedComments = query(comments, orderBy("create_dt", "asc"));
+      const resultComment = await getDocs(sortedComments);
+
+      resultComment.forEach((comment) => {
+
+        console.log(`comment.id => ${comment.id}`);
+
+        const isnertHtml = `
+                      <div class="mb-3" style="display:flex; gap:16px; width:100%">
+                        <label for="exampleFormControlTextarea1" class="form-label" style="width:10%">홍길동</label>
+                        <div style="width:90%; display:flex; flex-direction:column; gap:8px">
+                          <input type="hidden" value="${comment.id}">
+                          <textarea class="form-control" id="${comment.id
+          }" rows="3" readonly="true">${comment.data().comment
+          }</textarea>
+                          <div style="display:flex; gap:8px; justify-content: flex-end">
+                          <button class="btn btn-primary deleteBtn" type="button" id="deleteBtn" name="deleteBtn" data-itemid="${comment.id
+          }">삭제</button>
+                          <button class="btn btn-primary" type="button" id="updateBtn" name="${comment.id
+          }">수정</button>
+                        </div>
+                        </div>
+                      </div>`
+          ;
+        commentList.insertAdjacentHTML("beforeend", isnertHtml);
+      });
+
+    }
+
+    getComment();
+
+    // 덧글 등록하기
+    const createComment = async () => {
+
+      const doc = {
+        "comment": commentValue.value
+        , "create_dt": new Date()
+      };
+
+      await addDoc(collection(db, "comments"), doc);
+    }
+
+    createBtn.addEventListener("click", async function () {
+      createComment();
+    });
+
+    commentList.addEventListener("click", async function (event) {
+
+      if (event.target.classList.contains("deleteBtn")) {
+
+        if (!confirm("정말로 삭제하시겠습니까??")) return;
+
+        const itemId = event.target.getAttribute("data-itemid");
+        const docRef = doc(db, "comments", itemId);
+
+        deleteDoc(docRef)
+          .then(() => {
+            window.location.reload();
+            alert("삭제 성공");
+          })
+          .catch((error) => {
+            alert(error);
+          });
+      }
+
+      if (event.target.classList.contains("updateBtn")) {
+
+        if (!confirm("수정하시겠습니까?")) return;
+
+        const itemId = event.target.getAttribute("data-itemid");
+        const commentValue = document.querySelector(`#${itemId}`).value;
+        const docRef = doc(db, "comments", itemId);
+        const updateData = {
+          "comment": commentValue
+        }
+
+        updateDoc(docRef, updateData)
+          .then(docRef => {
+            window.location.reload();
+            alert("수정 성공");
+          })
+          .catch(error => {
+            alert(error);
+          })
+      }
+    });
+
+
+
+  </script>
+
   <!-- Nav -->
   <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
     <symbol id="aperture" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -208,67 +310,25 @@
         </div>
         <div class="member-content-description">
           <H3>제목</H3>
-          <p>내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ</p>
+          <p>
+            내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용ㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용ㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용ㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용ㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용ㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용ㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용ㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용ㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇ
+          </p>
         </div>
-        <div class="member-comment">
-          <div class="mb-3">
-            <label for="exampleFormControlTextarea1" class="form-label">홍길동</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-          </div>
-        </div>
-        <div class="member-comment">
-          <div class="mb-3">
-            <label for="exampleFormControlTextarea1" class="form-label">홍길동</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" readonly="true"></textarea>
-          </div>
-        </div>
+        <div class="member-comment" id="commentList"></div>
         <div class="member-comment-input">
           <div class="input-group input-group-lg">
             <span class="input-group-text">Comment</span>
-            <textarea class="form-control" aria-label="With textarea"></textarea>
+            <textarea class="form-control" id="comment" aria-label="With textarea"></textarea>
           </div>
-          <div class="d-grid gap-2 d-md-block" style="padding-top: 10px;">
-            <button class="btn btn-primary" type="button">등록</button>
-            <button class="btn btn-success" type="button">수정</button>
-            <button class="btn btn-danger" type="button">삭제</button>
+          <div style="width: 100%; padding-top: 10px; display: flex; justify-content: flex-end;">
+            <button class="btn btn-primary px-4" type="button" id="createBtn">
+              등록
+            </button>
           </div>
         </div>
       </div>
     </div>
 
-    <div>
-      <div class="member-content">
-        <div class="member-content-image" style="background-image: url(../../images/main.png);">
-        </div>
-        <div class="member-content-description">
-          <H3>제목</H3>
-          <p>내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ</p>
-        </div>
-        <div class="member-comment">
-          <div class="mb-3">
-            <label for="exampleFormControlTextarea1" class="form-label">홍길동</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-          </div>
-        </div>
-        <div class="member-comment">
-          <div class="mb-3">
-            <label for="exampleFormControlTextarea1" class="form-label">홍길동</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" readonly="true"></textarea>
-          </div>
-        </div>
-        <div class="member-comment-input">
-          <div class="input-group input-group-lg">
-            <span class="input-group-text">Comment</span>
-            <textarea class="form-control" aria-label="With textarea"></textarea>
-          </div>
-          <div class="d-grid gap-2 d-md-block" style="padding-top: 10px;">
-            <button class="btn btn-primary" type="button">등록</button>
-            <button class="btn btn-success" type="button">수정</button>
-            <button class="btn btn-danger" type="button">삭제</button>
-          </div>
-        </div>
-      </div>
-    </div>
   </main>
   <!-- Main End -->
 
