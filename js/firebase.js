@@ -3,16 +3,17 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebas
 import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 
 // Firebase 구성 정보 설정
 export const firebaseConfig = {
-    apiKey: "AIzaSyCmyTLmCx4ATTywUltIk7z86ubTahbIdLo",
-    authDomain: "miniproject-2b242.firebaseapp.com",
-    projectId: "miniproject-2b242",
-    storageBucket: "miniproject-2b242.appspot.com",
-    messagingSenderId: "648408536617",
-    appId: "1:648408536617:web:0502deae8087abe4296e38",
-    measurementId: "G-84D1WE1N6K"
+    apiKey: "AIzaSyAz6p5Wza5KhbEqeTMFti77zc7wjfyciJg",
+    authDomain: "miniproject1-5-book.firebaseapp.com",
+    projectId: "miniproject1-5-book",
+    storageBucket: "miniproject1-5-book.appspot.com",
+    messagingSenderId: "665433573451",
+    appId: "1:665433573451:web:6fb2e14433450e6a28a5ce",
+    measurementId: "G-8TJ2GHPBR2"
 };
 
 // Firebase 인스턴스 초기화
@@ -20,3 +21,5 @@ export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export {collection, addDoc};
 export {getDocs};
+export {getAuth, signInWithEmailAndPassword};
+

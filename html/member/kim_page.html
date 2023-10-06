@@ -153,9 +153,60 @@
     const commentValue = document.querySelector("#comment");
     const deleteBtn = document.getElementById("deleteBtn");
 
+    getComment();
+
+     // 등록버튼 클릭 이벤트
+     createBtn.addEventListener("click", async function () {
+      createComment();
+    });
+
+    // 수정, 삭제버튼 클릭 이벤트
+    commentList.addEventListener("click", async function (event) {
+      const itemId = event.target.getAttribute("data-itemid");
+
+      // 삭제 이벤트
+      if (event.target.classList.contains("deleteBtn")) {
+        if (!confirm("정말로 삭제하시겠습니까??")) {
+          return;
+        }
+
+        const docRef = doc(db, "comments", itemId);
+        
+        deleteDoc(docRef)
+          .then(() => {
+            window.location.reload();
+            alert("삭제 성공");
+          })
+          .catch((error) => {
+            alert(error);
+          });
+      }
+
+      // 수정 이벤트
+      if (event.target.classList.contains("updateBtn")) {
+        if (!confirm("수정하시겠습니까?")) {
+          return;
+        }
+
+        const commentValue = document.querySelector(`#${itemId}`).value;
+        const docRef = doc(db, "comments", itemId);
+        const updateData = {
+          "comment": commentValue
+        }
+
+        updateDoc(docRef, updateData)
+          .then(docRef => {
+            window.location.reload();
+            alert("수정 성공");
+          })
+          .catch(error => {
+            alert(error);
+          })
+      }
+    });
+
     // 덧글 리스트 가져오기
     const getComment = async () => {
-
       const comments = collection(db, "comments");
       const sortedComments = query(comments, orderBy("create_dt", "asc"));
       const resultComment = await getDocs(sortedComments);
@@ -175,14 +226,10 @@
                           `;
         commentList.insertAdjacentHTML("beforeend", isnertHtml);
       });
-
     }
-
-    getComment();
 
     // 덧글 등록하기
     const createComment = async () => {
-
       const doc = {
         "comment": commentValue.value
         , "create_dt": new Date()
@@ -194,53 +241,6 @@
           alert("등록 성공");
         });
     }
-
-    // 등록버튼 클릭 이벤트
-    createBtn.addEventListener("click", async function () {
-      createComment();
-    });
-
-    // 수정, 삭제버튼 클릭 이벤트
-    commentList.addEventListener("click", async function (event) {
-
-      const itemId = event.target.getAttribute("data-itemid");
-
-      // 삭제 이벤트
-      if (event.target.classList.contains("deleteBtn")) {
-
-        if (!confirm("정말로 삭제하시겠습니까??")) return;
-
-        const docRef = doc(db, "comments", itemId);
-        deleteDoc(docRef)
-          .then(() => {
-            window.location.reload();
-            alert("삭제 성공");
-          })
-          .catch((error) => {
-            alert(error);
-          });
-      }
-
-      // 수정 이벤트
-      if (event.target.classList.contains("updateBtn")) {
-
-        if (!confirm("수정하시겠습니까?")) return;
-
-        const commentValue = document.querySelector(`#${itemId}`).value;
-        const docRef = doc(db, "comments", itemId);
-        const updateData = {
-          "comment": commentValue
-        }
-        updateDoc(docRef, updateData)
-          .then(docRef => {
-            window.location.reload();
-            alert("수정 성공");
-          })
-          .catch(error => {
-            alert(error);
-          })
-      }
-    });
   </script>
 
   <!-- Nav -->
@@ -304,9 +304,9 @@
         <div class="member-content-image" style="background-image: url(../../images/main.png);">
         </div>
         <div class="member-content-description">
-          <H3>제목</H3>
+          <H3>나를 소개 합니다.</H3>
           <p>
-            내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용ㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용ㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용ㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용ㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용ㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용ㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용ㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용ㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㄴㅇㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇㅇㅇㄴㅇ내용내용내용ㅇㄴㅇㄴㅇㅇ
+            
           </p>
         </div>
         <div class="member-comment" id="commentList"></div>
