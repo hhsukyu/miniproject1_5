@@ -16,6 +16,7 @@ export const firebaseConfig = {
     measurementId: "G-8TJ2GHPBR2"
 };
 
+
 // Firebase 인스턴스 초기화
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
