@@ -153,12 +153,6 @@
                         <li class="nav-item"><a class="nav-link" href="../book/test.html">Visitors' Book</a></li>
                         <li class="nav-item" id="loginNavItem"><a class="nav-link" href="../login/login.html">Login</a>
                         </li>
-                        <li class="nav-item" id="userNavItem"><a class="nav-link" href="#">
-                                <span id="userEmail"></span>
-                            </a></li>
-                        <li class="nav-item" id="logoutNavItem" style="display: none;">
-                            <a class="nav-link" href="#" id="logoutButton">Logout</a>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -281,48 +275,7 @@
                 // 현재 탭에서 회원가입 페이지로 이동합니다.
                 window.location.href = signUpPageURL;
             });
-            // 페이지 로드 시 로그인 상태 확인
-            onAuthStateChanged(auth, (user) => {
-                const userEmailElement = document.getElementById("userEmail");
-                const loginNavItem = document.getElementById("loginNavItem");
-                const userNavItem = document.getElementById("userNavItem");
-                const logoutNavItem = document.getElementById("logoutNavItem");
-                const logoutButton = document.getElementById("logoutButton");
 
-
-                if (user) {
-                    // 사용자가 로그인한 경우
-                    const userEmail = user.email;
-                    userEmailElement.textContent = userEmail;
-                    // 여기에서 로그인 상태를 유지하는 로직을 추가할 수 있습니다.
-
-                    // 로그인 버튼 숨기기, 사용자 정보 표시
-                    loginNavItem.style.display = "none";
-                    userNavItem.style.display = "block";
-                    logoutNavItem.style.display = "block";
-
-
-                    // 로그아웃 버튼 클릭 시 로그아웃
-                    logoutButton.addEventListener("click", () => {
-                        signOut(auth)
-                            .then(() => {
-                                // 로그아웃 성공 시 페이지 새로고침
-                                window.location.reload();
-                            })
-                            .catch((error) => {
-                                console.error("로그아웃 중 오류 발생:", error);
-                            });
-                    });
-                } else {
-                    // 사용자가 로그인하지 않은 경우
-                    userEmailElement.textContent = ""; // 빈 문자열로 설정
-
-                    // 로그인 버튼 표시, 사용자 정보 숨기기
-                    loginNavItem.style.display = "block";
-                    userNavItem.style.display = "none";
-                    logoutNavItem.style.display = "none";
-                }
-            });
         </script>
 </body>
 
