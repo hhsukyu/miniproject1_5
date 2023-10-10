@@ -107,7 +107,7 @@
         }
 
         .introcontent {
-            width:103%;
+            width: 103%;
         }
 
         .bd-mode-toggle .dropdown-menu .active .bi {
@@ -166,43 +166,140 @@
         import { query, orderBy, limit } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         import { doc, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-        const createBtn = document.getElementById("createBtn");
-        const commentList = document.getElementById("commentList");
-        const commentValue = document.querySelector("#comment");
-        const deleteBtn = document.getElementById("deleteBtn");
+        // 사용자
+        const USER = "han";
+
+        // 덧글이 출력될 div 영역 오브젝트
+        const commentListObject = document.querySelectorAll('.commentListObject');
+
+        // 등록 버튼 오브젝트
+        const createButtons = document.querySelectorAll('.createBtn');
+
+        // 덧글 input text 오브젝트
+        const commentTexts = document.querySelectorAll('.commentText');
+
+        // 등록버튼 클릭 이벤트
+        createButtons.forEach((button) => {
+            button.addEventListener('click', function (event) {
+                const contentId = event.target.getAttribute("data-contentId");
+
+                createComment(contentId);
+            });
+        });
 
         // 덧글 리스트 가져오기
         const getComment = async () => {
 
+            // 덧글 정렬을 위한 쿼리
             const comments = collection(db, "comments");
             const sortedComments = query(comments, orderBy("create_dt", "asc"));
             const resultComment = await getDocs(sortedComments);
 
+            // 덧글 리스트 순회
             resultComment.forEach((comment) => {
-                const isnertHtml = `
+                commentListObject.forEach((list) => {
+                    if (Number(list.dataset.contentid) === comment.data().content_id
+                        && comment.data().content_user === USER) {
+                        const isnertHtml = `
                             <div class="mb-3" style="display:flex; gap:16px; width:100%">
                               <label for="exampleFormControlTextarea1" class="form-label" style="width:10%">홍길동</label>
                               <div style="width:90%; display:flex; flex-direction:column; gap:8px">
                                 <textarea class="form-control" id="${comment.id}" rows="3">${comment.data().comment}</textarea>
                                 <div style="display:flex; gap:8px; justify-content: flex-end">
-                                <button class="btn btn-primary deleteBtn" type="button" id="deleteBtn" name="deleteBtn" data-itemid="${comment.id}">삭제</button>
-                                <button class="btn btn-primary updateBtn" type="button" id="updateBtn" data-itemid="${comment.id}">수정</button>
+                                <button class="btn btn-primary deleteBtn" type="button" data-itemid="${comment.id}" data-contentId="${comment.data().content_id}">삭제</button>
+                                <button class="btn btn-primary updateBtn" type="button" data-itemid="${comment.id}" data-contentId="${comment.data().content_id}">수정</button>
                               </div>
                               </div>
                             </div>
                           `;
-                commentList.insertAdjacentHTML("beforeend", isnertHtml);
+                        list.insertAdjacentHTML("beforeend", isnertHtml);
+                    }
+                });
             });
 
+            // 수정 버튼 이벤트 리스너 등록
+            const updateButtons = document.querySelectorAll('.updateBtn');
+            updateButtons.forEach((updateBtn) => {
+                updateBtn.addEventListener('click', function (event) {
+                    const contentId = event.target.getAttribute("data-contentId");
+                    const itemId = event.target.getAttribute("data-itemid");
+
+                    updateComment(contentId, itemId);
+                });
+            });
+
+            // 삭제 버튼 이벤트 리스너 등록
+            const deleteButtons = document.querySelectorAll('.deleteBtn');
+
+            deleteButtons.forEach((deleteBtn) => {
+                deleteBtn.addEventListener('click', function (event) {
+                    const contentId = event.target.getAttribute("data-contentId");
+                    const itemId = event.target.getAttribute("data-itemid");
+
+                    deleteComment(contentId, itemId);
+                });
+            });
         }
 
         getComment();
 
+        // 덧글 수정하기
+        const updateComment = (contentId, itemId) => {
+            if (!confirm("수정하시겠습니까?")) {
+                return;
+            }
+
+            const commentValue = document.querySelector(`#${itemId}`).value;
+            const docRef = doc(db, "comments", itemId);
+            const updateData = {
+                "comment": commentValue
+            }
+
+            updateDoc(docRef, updateData)
+                .then(docRef => {
+                    window.location.reload();
+                    alert("수정 성공");
+                })
+                .catch(error => {
+                    alert(error);
+                })
+        }
+
+        // 덧글 삭제하기
+        const deleteComment = (contentId, itemId) => {
+            if (!confirm("삭제하시겠습니까?")) {
+                return;
+            }
+
+            const docRef = doc(db, "comments", itemId);
+
+            deleteDoc(docRef)
+                .then(() => {
+                    window.location.reload();
+                    alert("삭제 성공");
+                })
+                .catch((error) => {
+                    alert(error);
+                });
+        }
+
         // 덧글 등록하기
-        const createComment = async () => {
+        const createComment = async (contentId) => {
+
+            let commentText = "";
+
+            commentTexts.forEach((text) => {
+                const currentContentId = text.dataset.contentid;
+
+                if (Number(contentId) === Number(currentContentId)) {
+                    commentText = text.value;
+                }
+            });
 
             const doc = {
-                "comment": commentValue.value
+                "content_id": Number(contentId)
+                , "content_user": USER
+                , "comment": commentText
                 , "create_dt": new Date()
             };
 
@@ -212,53 +309,6 @@
                     alert("등록 성공");
                 });
         }
-
-        // 등록버튼 클릭 이벤트
-        createBtn.addEventListener("click", async function () {
-            createComment();
-        });
-
-        // 수정, 삭제버튼 클릭 이벤트
-        commentList.addEventListener("click", async function (event) {
-
-            const itemId = event.target.getAttribute("data-itemid");
-
-            // 삭제 이벤트
-            if (event.target.classList.contains("deleteBtn")) {
-
-                if (!confirm("정말로 삭제하시겠습니까??")) return;
-
-                const docRef = doc(db, "comments", itemId);
-                deleteDoc(docRef)
-                    .then(() => {
-                        window.location.reload();
-                        alert("삭제 성공");
-                    })
-                    .catch((error) => {
-                        alert(error);
-                    });
-            }
-
-            // 수정 이벤트
-            if (event.target.classList.contains("updateBtn")) {
-
-                if (!confirm("수정하시겠습니까?")) return;
-
-                const commentValue = document.querySelector(`#${itemId}`).value;
-                const docRef = doc(db, "comments", itemId);
-                const updateData = {
-                    "comment": commentValue
-                }
-                updateDoc(docRef, updateData)
-                    .then(docRef => {
-                        window.location.reload();
-                        alert("수정 성공");
-                    })
-                    .catch(error => {
-                        alert(error);
-                    })
-            }
-        });
     </script>
 
     <!-- Nav -->
@@ -304,11 +354,16 @@
                                         d="M1 8a7 7 0 1 1 14 0A7 7 0 0 1 1 8Zm15 0A8 8 0 1 0 0 8a8 8 0 0 0 16 0Zm-8.006 4.158c-1.57 0-2.654-.902-2.719-2.115h1.237c.14.72.832 1.031 1.529 1.031.791 0 1.57-.597 1.57-1.681 0-.967-.732-1.57-1.582-1.57-.767 0-1.242.45-1.435.808H5.445L5.791 4h4.705v1.103H6.875l-.193 2.343h.064c.17-.258.715-.68 1.611-.68 1.383 0 2.561.944 2.561 2.585 0 1.687-1.184 2.806-2.924 2.806Z" />
                                 </svg>
                             </a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Visitors' Book</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Login</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">
+                        <li class="nav-item"><a class="nav-link" href="../main/index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="../book/test.html">Visitors' Book</a></li>
+                        <li class="nav-item" id="loginNavItem"><a class="nav-link" href="../login/login.html">Login</a>
+                        </li>
+                        <li class="nav-item" id="userNavItem"><a class="nav-link" href="#">
+                                <span id="userEmail"></span>
                             </a></li>
+                        <li class="nav-item" id="logoutNavItem" style="display: none;">
+                            <a class="nav-link" href="#" id="logoutButton">Logout</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -355,14 +410,16 @@
                             <h5>사진은 활발하게 보일 수 있지만 사실은 무척이나 소심하고 낯도 많이 가립니다. 하지만 친해지면 사진처럼 활발한 모습도 보여줍니다.
                                 <h5>여러분들의 간택을 기다립니다! 많관부~</h5>
                         </div>
-                        <div class="member-comment" id="commentList"></div>
+                        <div class="member-comment commentListObject" id="commentList" data-contentId="0"></div>
                         <div class="member-comment-input">
                             <div class="input-group input-group-lg">
                                 <span class="input-group-text">Comment</span>
-                                <textarea class="form-control" id="comment" aria-label="With textarea"></textarea>
+                                <textarea class="form-control commentText" id="comment" aria-label="With textarea"
+                                    data-contentId="0"></textarea>
                             </div>
                             <div style="width: 100%; padding-top: 10px; display: flex; justify-content: flex-end;">
-                                <button class="btn btn-primary px-4" type="button" id="createBtn">
+                                <button class="btn btn-primary px-4 createBtn" type="button" id="createBtn"
+                                    data-contentId="0">
                                     등록
                                 </button>
                             </div>
@@ -383,14 +440,16 @@
                             </h5>
                             <h5>제 장점을 활용해 열심히 하겠습니다!</h5>
                         </div>
-                        <div class="member-comment" id="commentList"></div>
+                        <div class="member-comment commentListObject" id="commentList" data-contentId="1"></div>
                         <div class="member-comment-input">
                             <div class="input-group input-group-lg">
                                 <span class="input-group-text">Comment</span>
-                                <textarea class="form-control" id="comment" aria-label="With textarea"></textarea>
+                                <textarea class="form-control commentText" id="comment" aria-label="With textarea"
+                                    data-contentId="1"></textarea>
                             </div>
                             <div style="width: 100%; padding-top: 10px; display: flex; justify-content: flex-end;">
-                                <button class="btn btn-primary px-4" type="button" id="createBtn">
+                                <button class="btn btn-primary px-4 createBtn" type="button" id="createBtn"
+                                    data-contentId="1">
                                     등록
                                 </button>
                             </div>
@@ -410,14 +469,16 @@
                             <h5>바로 생각하고 말하기보다는 혼자 생각을 정리하고 추후에 자신의 의견을 이야기하는 편이기에 당장은 의견이 없어서 답답해 보일 수도 있습니다.</h5>
                             <h5>앞으로 최선을 다해 협업하겠습니다.</h5>
                         </div>
-                        <div class="member-comment" id="commentList"></div>
+                        <div class="member-comment commentListObject" id="commentList" data-contentId="2"></div>
                         <div class="member-comment-input">
                             <div class="input-group input-group-lg">
                                 <span class="input-group-text">Comment</span>
-                                <textarea class="form-control" id="comment" aria-label="With textarea"></textarea>
+                                <textarea class="form-control commentText" id="comment" aria-label="With textarea"
+                                    data-contentId="2"></textarea>
                             </div>
                             <div style="width: 100%; padding-top: 10px; display: flex; justify-content: flex-end;">
-                                <button class="btn btn-primary px-4" type="button" id="createBtn">
+                                <button class="btn btn-primary px-4 createBtn" type="button" id="createBtn"
+                                    data-contentId="2">
                                     등록
                                 </button>
                             </div>

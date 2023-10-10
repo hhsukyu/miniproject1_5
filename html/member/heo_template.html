@@ -298,7 +298,7 @@
 
             const doc = {
                 "content_id": Number(contentId)
-                , "content_user": USER
+                , "content_user": "kim"
                 , "comment": commentText
                 , "create_dt": new Date()
             };
@@ -356,9 +356,14 @@
                             </a></li>
                         <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="#">Visitors' Book</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Login</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">
+                        <li class="nav-item" id="loginNavItem"><a class="nav-link" href="../login/login.html">Login</a>
+                        </li>
+                        <li class="nav-item" id="userNavItem"><a class="nav-link" href="#">
+                                <span id="userEmail"></span>
                             </a></li>
+                        <li class="nav-item" id="logoutNavItem" style="display: none;">
+                            <a class="nav-link" href="#" id="logoutButton">Logout</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -370,22 +375,21 @@
     <main>
         <!-- introduce -->
         <div class="myvideo">
-            <div class="member-content-image"
-                style="background-image: url(../../images/kim/FirstView.jpeg); background-size: 500px 350px;">
-            </div>
+            <video src="../../images/hahnpics/myvideo.mp4" controls loop muted autoplay width="480px"
+                height="430px"></video></video>
         </div>
         <div class="intext">
-            <h1>김승태</h1>
-            <h2>"성장하는 개발자"</h2>
-            <h4>안녕하세요, 김승태입니다. 앞으로 내일배움 캠프를 함께할 여러분들 잘부탁드립니다😄
-                <h4>이 페이지는 저의 TMI로 가득할 예정이니 주의 하세요!!<h4>
-                        <h4>저는 1997년 11월 19일에 태어나서 올해로 27살 이에요.</h4>
-                        <h4>경기도 화성에서 27년 살았지만 올해 수원시로 이사온 수원 시민이랍니다.</h4>
-                        <h4>저는 집에서 쉴때 주로 게임을 하면서 쉬어요. (약속없으면 안나가는편)</h4>
-                        <h4>최근에는 조기축구팀 "태풍FC"에 가입하여 활동중입니다.
-                        </h4>
-                        <h4>이번 내일배움캠프라는 좋은 프로그램을 통해 우상향하는 개발자가 되고 싶습니다.</h4>
-                        <h4>개발자라는 직업은 평생 오류를 직면하는 직업이라고 합니다. 그럴때마다 포기하지 않고 나아가겠습니다.</h4>
+            <h1>허성현</h1>
+            <h2>"사유하는 개발자"</h2>
+            <h4>평안하십니까? 여러분과 함께 내일배움캠프에서 성장할 '허성현' 입니다!</h4>
+            <h4>아래는 저의 TMI들 입니다. 비슷한 경험이 있으시거나 관심이 생기신다면 언제든 편하게 말 걸어주세요!<h4>
+                    <h4>저는 98년생으로 26살입니다! 졸업은 20년도에 했으나 ROTC를 하면서 장교로 전역하고 현재 취업 준비 중입니다.</h4>
+                    <h4>이번 캠프를 통해서 저는 매일 어제의 나보다 더 성장하는 사람이 되고 싶습니다. 오직 성장에만 집중 할 수 있도록 스스로 다잡고 있습니다!</h4>
+                    <h4>저번 주 월요일에 인생을 살면서 처음으로 펌이라는 것을 해봤습니다. 항상 짧은 머리로 살아왔어서 아직 머리가 적응이 어렵습니다.</h4>
+                    <h4>사진은 제가 26년을 살아오면서 정말 좋아한다고 말할 수 있는 사진을 찍는 저의 모습입니다. 언젠가는 저만으 사진으로 작은 전시회를 열고 싶다는 꿈이 있습니다.
+                    </h4>
+                    <h4>커피나 차도 정말 좋아합니다. 커피는 오늘도 4잔 먹었는데요. 핸드드립으로 직접 커피를 우리거나 차를 직접 우려내는 것도 좋아합니다.</h4>
+                    <h4>다음으로 저의 MBTI와 성격, 장점, 협업스타일을 알아봅시다.</h4>
         </div>
         </div>
         <!-- introduce End -->
@@ -396,24 +400,25 @@
                 <div class="col">
                     <div class="member-content">
                         <div class="member-content-image"
-                            style="background-image: url(../../images/kim/kim1.jpeg); background-size: 500px 350px;">
+                            style="background-image: url(../../images/hahnpics/1.hahn.jpg); background-size: 500px 350px;">
                         </div>
                         <div class="member-content-description">
-                            <H3>저의 MBTI는요</H3>
-                            <h5>저는 ISFP입니다.</h5>
-                            <h5>사실 MBTI같은 심리검사를 그렇게 신뢰 하진않았어요</h5>
-                            <h5>그러던중 최근에 ISFP에 특징을 찾아보았는데 저랑 나름 맞는 부분이 많은거 같아서 신기했었습니다.</h5>
-                            <h5>I 답게 많이 소심한편이에요~ 지나가다 인사 먼져해주시면 우렁차게 인사드리겠습니다!!
-                                <h5></h5>
+                            <H3>INTJ와 ESTJ</H3>
+                            <h5>저는 '용의주도한 전략가', '엄격한 관리자'의 두 모습을 가지고 있습니다!</h5>
+                            <h5>공적인 자리에서 저의 모습은 ESTJ의 모습이 더 큽니다.</h5>
+                            <h5>효율적으로 일하고 싶어하고 일의 진척이 늦거나 할 때 나서서 먼저 해결하려고 합니다.</h5>
+                            <h5>사적인 자리에서 저는 INTJ의 모습인 것 같습니다.</h5>
+                            <h5>제가 관심있어하는 분야에 빠져들었을 때는 혼자서 계속해서 깊이있게 파고들어가는 것을 좋아합니다.</h5>
                         </div>
-                        <div class="member-comment" id="commentList"></div>
+                        <div class="member-comment commentListObject" id="commentList" data-contentId="0"></div>
                         <div class="member-comment-input">
                             <div class="input-group input-group-lg">
                                 <span class="input-group-text">Comment</span>
-                                <textarea class="form-control" id="comment" aria-label="With textarea"></textarea>
+                                <textarea class="form-control commentText" aria-label="With textarea"
+                                    data-contentId="0"></textarea>
                             </div>
                             <div style="width: 100%; padding-top: 10px; display: flex; justify-content: flex-end;">
-                                <button class="btn btn-primary px-4" type="button" id="createBtn">
+                                <button class="btn btn-primary px-4 createBtn" type="button" data-contentId="0">
                                     등록
                                 </button>
                             </div>
@@ -423,23 +428,25 @@
                 <div class="col">
                     <div class="member-content">
                         <div class="member-content-image"
-                            style="background-image: url(../../images/kim/kim2.jpeg); background-size: 500px 350px;">
+                            style="background-image: url(../../images/hahnpics/2.hahn.jpg); background-size: 500px 350px;">
                         </div>
                         <div class="member-content-description">
-                            <H3>김승태의 장점</H3>
-                            <h5>저는 시간약속을 잘지키고 무책임 하지는 않은것 같습니다.</h5>
-                            <h5>취업하기전 알바도 자주 했었는데 알바를 하면서 한번도 지각한적이 없었고</h5>
-                            <h5>사장님이 안계실때도 내 가게다 라는 생각을 가지고 일을 했었는데 사장님이 좋게 봐주셔서 밥도 많이 사주시고 챙겨주셨어요.</h5>
-                            </h5>
+                            <H3>Strong & Weak Features</H3>
+                            <h5>1. 관심이 있고 좋아하는 것에는 정말 끝까지 파고들려고 한다. </h5>
+                            <h5>2. 하지만 관심이 안생기는 것에는 죽어도 관심이 안생긴다.</h5>
+                            <h5>3. 추진력을 받으면 일을 순식간에 해치운다.</h5>
+                            <h5>4. 추진력을 받기 위해서 정말 긴 예열 시간이 필요하다.</h5>
+                            <h5>이런 제 모습에서 단점은 극복하고 장점은 극대화하는 모습 보여드리겠습니다.</h5>
                         </div>
-                        <div class="member-comment" id="commentList"></div>
+                        <div class="member-comment commentListObject" id="commentList" data-contentId="1"></div>
                         <div class="member-comment-input">
                             <div class="input-group input-group-lg">
                                 <span class="input-group-text">Comment</span>
-                                <textarea class="form-control" id="comment" aria-label="With textarea"></textarea>
+                                <textarea class="form-control commentText" aria-label="With textarea"
+                                    data-contentId="1"></textarea>
                             </div>
                             <div style="width: 100%; padding-top: 10px; display: flex; justify-content: flex-end;">
-                                <button class="btn btn-primary px-4" type="button" id="createBtn">
+                                <button class="btn btn-primary px-4 createBtn" type="button" data-contentId="1">
                                     등록
                                 </button>
                             </div>
@@ -449,24 +456,25 @@
                 <div class="col">
                     <div class="member-content">
                         <div class="member-content-image"
-                            style="background-image: url(../../images/kim/kim3.jpeg); background-size: 500px 350px;">
+                            style="background-image: url(../../images/hahnpics/3.hahn.jpg); background-size: 500px 350px;">
                         </div>
                         <div class="member-content-description">
-                            <H3>김승태의 협업 스타일을 알아보자</H3>
-                            <h5>저는 개발은 결국 혼자하는것이 아니기 때문에 팀원이 가장 중요하다고 생각합니다.</h5>
-                            <h5>그런 팀원이 때론 저보다 잘하시는분도 계시고 조금 부족한 분도 계실수도 있습니다.</h5>
-                            <h5>혼자만 앞서 가는것이 아닌 같이 걸어가는 것이 중요하다고 생각이 듭니다.</h5>
-                            <h5>그만큼 팀원간 유대가 중요하기에 앞으로 프로젝트 진행시 회식을 추진할수 있도록 해보겠습니다~</h5>
-                            <h5>회식을 통해 더욱 유대감을 형성하면 힘든 프로젝트도 잘해쳐나갈것 입니다!</h5>
+                            <H3>Collaboration Style</H3>
+                            <h5>리더, 팔로워 무슨 역할이든 주어진 역할에 충실하고자 합니다.</h5>
+                            <h5>어느 자리에 있든 조직에서 현재 가장 필요한 것이 무엇인지 생각하며 적극적으로 어필하고자 합니다.</h5>
+                            <h5>어떻게 해서든 결과를 내고자 하고 이를 위해 맡은 제 역할을 해내고자 합니다. </h5>
+                            <h5>어떤 역할이든 맡겨만 주시면 최선을 다하는 모습 보여드리겠습니다.</h5>
+                            <h5>앞으로 여러분들과 같이 협업할 날을 기다리겠습니다!</h5>
                         </div>
-                        <div class="member-comment" id="commentList"></div>
+                        <div class="member-comment commentListObject" id="commentList" data-contentId="2"></div>
                         <div class="member-comment-input">
                             <div class="input-group input-group-lg">
                                 <span class="input-group-text">Comment</span>
-                                <textarea class="form-control" id="comment" aria-label="With textarea"></textarea>
+                                <textarea class="form-control commentText" id="comment" aria-label="With textarea"
+                                    data-contentId="2"></textarea>
                             </div>
                             <div style="width: 100%; padding-top: 10px; display: flex; justify-content: flex-end;">
-                                <button class="btn btn-primary px-4" type="button" id="createBtn">
+                                <button class="btn btn-primary px-4 createBtn" type="button" data-contentId="2">
                                     등록
                                 </button>
                             </div>
@@ -505,6 +513,74 @@
     <!-- Footer End -->
 
     <script src="../../js/bootstrap.bundle.min.js"></script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyAz6p5Wza5KhbEqeTMFti77zc7wjfyciJg",
+            authDomain: "miniproject1-5-book.firebaseapp.com",
+            projectId: "miniproject1-5-book",
+            storageBucket: "miniproject1-5-book.appspot.com",
+            messagingSenderId: "665433573451",
+            appId: "1:665433573451:web:6fb2e14433450e6a28a5ce",
+            measurementId: "G-8TJ2GHPBR2"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+
+        // 페이지 로드 시 로그인 상태 확인
+        onAuthStateChanged(auth, (user) => {
+            const userEmailElement = document.getElementById("userEmail");
+            const loginNavItem = document.getElementById("loginNavItem");
+            const userNavItem = document.getElementById("userNavItem");
+            const logoutNavItem = document.getElementById("logoutNavItem");
+            const logoutButton = document.getElementById("logoutButton");
+
+
+            if (user) {
+                // 사용자가 로그인한 경우
+                const userEmail = user.email;
+                userEmailElement.textContent = userEmail;
+                // 여기에서 로그인 상태를 유지하는 로직을 추가할 수 있습니다.
+
+                // 로그인 버튼 숨기기, 사용자 정보 표시
+                loginNavItem.style.display = "none";
+                userNavItem.style.display = "block";
+                logoutNavItem.style.display = "block";
+
+
+                // 로그아웃 버튼 클릭 시 로그아웃
+                logoutButton.addEventListener("click", () => {
+                    signOut(auth)
+                        .then(() => {
+                            // 로그아웃 성공 시 페이지 새로고침
+                            window.location.reload();
+                        })
+                        .catch((error) => {
+                            console.error("로그아웃 중 오류 발생:", error);
+                        });
+                });
+            } else {
+                // 사용자가 로그인하지 않은 경우
+                userEmailElement.textContent = ""; // 빈 문자열로 설정
+
+                // 로그인 버튼 표시, 사용자 정보 숨기기
+                loginNavItem.style.display = "block";
+                userNavItem.style.display = "none";
+                logoutNavItem.style.display = "none";
+            }
+        });
+    </script>
 </body>
 
 </html>

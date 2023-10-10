@@ -170,7 +170,6 @@
                         <li class="nav-item" id="userNavItem"><a class="nav-link" href="#">
                                 <span id="userEmail"></span>
                             </a></li>
-                            <li class="nav-item"><span id="clock" class="nav-link" href="#"></span></li>
                         <li class="nav-item" id="logoutNavItem" style="display: none;">
                             <a class="nav-link" href="#" id="logoutButton">Logout</a>
                         </li>
@@ -195,7 +194,7 @@
         </div>
 
         <!-- 수경 -->
-        <a href="#">
+        <a href="../member/hahn_template.html">
             <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
                 <div class="text-bg-dark me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
                     <div class="my-3 py-3">
@@ -255,10 +254,8 @@
         <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
             <div class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
                 <div class="my-3 p-3">
-                  <h2 class="display-5">김다은</h2>
-                  <p class="lead">끝까지 열심히 하겠습니다.</p>
-                    
-                    
+                    <h2 class="display-5">김다은</h2>
+                    <p class="lead">끝까지 열심히 하겠습니다.</p>
                 </div>
                 <a href="#">
                     <div class="bg-dark shadow-sm mx-auto bg-profile"
@@ -317,7 +314,6 @@
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        const analytics = getAnalytics(app);
 
 
         // 페이지 로드 시 로그인 상태 확인
