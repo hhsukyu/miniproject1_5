@@ -102,7 +102,6 @@
 
 
     <!-- Custom styles for this template -->
-    <link href="product.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../../css/login.css">
 </head>
 
@@ -177,24 +176,24 @@
                     <div class="pannel_inner">
                         <div class="id_pw_wrap">
                             <div class="input_row" id="id_line">
-                                <input type="text" id="id" name="id" placeholder="아이디" title="아이디" class="input_text"
-                                    maxlength="41" value="">
+                                <input type="text" id="signUpId" name="id" placeholder="아이디" title="아이디"
+                                    class="input_text" maxlength="41" value="" required>
                             </div>
                             <div class="input_row" id="pw_line">
-                                <input type="password" id="pw" name="pw" placeholder="비밀번호" title="비밀번호"
-                                    class="input_text" maxlength="41" value="">
+                                <input type="password" id="signUpPassword" name="pw" placeholder="비밀번호" title="비밀번호"
+                                    class="input_text" maxlength="41" value="" required>
                             </div>
                             <div class="input_row" id="pw_check_line">
-                                <input type="password" id="pw_check" name="pw_check" placeholder="비밀번호 확인"
-                                    title="비밀번호 확인" class="input_text" maxlength="41" value="">
+                                <input type="password" id="signUpPwCheck" name="pw_check" placeholder="비밀번호 확인"
+                                    title="비밀번호 확인" class="input_text" maxlength="41" value="" required>
                             </div>
                             <div class="input_row" id="mbti_line">
-                                <input type="text" id="mbti" name="mbti" placeholder="MBTI" title="MBTI"
-                                    class="input_text" maxlength="41" value="">
+                                <input type="text" id="signUpMbti" name="mbti" placeholder="MBTI" title="MBTI"
+                                    class="input_text" maxlength="41" value="" required>
                             </div>
                         </div>
                         <div class="btn_login_wrap">
-                            <button type="submit" class="btn_login" id="log.login">
+                            <button type="submit" class="btn_login" id="signUpButton">
                                 <span class="btn_text">회원가입</span>
                             </button>
                         </div>
@@ -230,6 +229,73 @@
         <!-- Footer End -->
 
         <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script type="module">
+            // Import the functions you need from the SDKs you need
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+            import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";
+            // TODO: Add SDKs for Firebase products that you want to use
+            // https://firebase.google.com/docs/web/setup#available-libraries
+
+            // Your web app's Firebase configuration
+            // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+            const firebaseConfig = {
+                apiKey: "AIzaSyAz6p5Wza5KhbEqeTMFti77zc7wjfyciJg",
+                authDomain: "miniproject1-5-book.firebaseapp.com",
+                projectId: "miniproject1-5-book",
+                storageBucket: "miniproject1-5-book.appspot.com",
+                messagingSenderId: "665433573451",
+                appId: "1:665433573451:web:6fb2e14433450e6a28a5ce",
+                measurementId: "G-8TJ2GHPBR2"
+            };
+
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            const analytics = getAnalytics(app);
+            console.log(app);
+
+            import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+
+            function validatePassword() {
+                const password = document.getElementById("signUpPassword").value;
+                const passwordConfirm = document.getElementById("signUpPwCheck").value;
+
+                if (password !== passwordConfirm) {
+                    alert('비밀번호가 일치하지 않습니다.');
+                    return false; // 비밀번호 불일치 시 false 반환
+                    window.location.reload();
+                }
+
+                return true; // 비밀번호 일치 시 true 반환
+            }
+
+            document.getElementById("signUpButton").addEventListener('click', (event) => {
+                event.preventDefault();
+                const email = document.getElementById("signUpId").value;
+                const password = document.getElementById("signUpPassword").value;
+
+                if (validatePassword()) {
+                    const auth = getAuth(app); // Firebase 앱 인스턴스를 사용하여 auth 객체 가져오기
+                    createUserWithEmailAndPassword(auth, email, password)
+                        .then((userCredential) => {
+                            // 사용자가 성공적으로 가입한 경우
+                            alert('회원가입 성공');
+                            console.log(userCredential);
+                            const user = userCredential.user;
+                            window.location.href = "login.html";
+                        })
+                        .catch((error) => {
+                            // 오류가 발생한 경우
+                            alert('회원가입 오류: ' + error.message);
+                            console.error(error);
+                            window.location.reload();
+                        });
+                } else {
+                    // validatePassword 함수가 false를 반환한 경우 페이지를 새로 고침
+                    location.reload();
+                }
+            });
+
+        </script>
 </body>
 
 </html>

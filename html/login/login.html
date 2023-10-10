@@ -102,7 +102,6 @@
 
 
     <!-- Custom styles for this template -->
-    <link href="product.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../../css/login.css">
 </head>
 
@@ -177,16 +176,16 @@
                     <div class="pannel_inner">
                         <div class="id_pw_wrap">
                             <div class="input_row" id="id_line">
-                                <input type="text" id="id" name="id" placeholder="아이디" title="아이디" class="input_text"
-                                    maxlength="41" value="">
+                                <input type="text" id="signInId" name="id" placeholder="아이디" title="아이디"
+                                    class="input_text" maxlength="41" value="">
                             </div>
                             <div class="input_row" id="pw_line">
-                                <input type="password" id="pw" name="pw" placeholder="비밀번호" title="비밀번호"
+                                <input type="password" id="signInPassword" name="pw" placeholder="비밀번호" title="비밀번호"
                                     class="input_text" maxlength="41" value="">
                             </div>
                         </div>
                         <div class="btn_login_wrap">
-                            <button type="submit" class="btn_login" id="log.login">
+                            <button type="submit" class="btn_login" id="signInButton">
                                 <span class="btn_text">로그인</span>
                             </button>
                         </div>
@@ -195,7 +194,7 @@
             </ul>
 
             <ul class="find_wrap" id="find_wrap">
-                <li><a target="_blank" href="#none" class="find_text">회원가입</a></li>
+                <li><a target="_blank" class="find_text">회원가입</a></li>
 
             </ul>
         </form>
@@ -227,6 +226,62 @@
         <!-- Footer End -->
 
         <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script type="module">
+            // Import the functions you need from the SDKs you need
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+            import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";
+            // TODO: Add SDKs for Firebase products that you want to use
+            // https://firebase.google.com/docs/web/setup#available-libraries
+
+            // Your web app's Firebase configuration
+            // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+            const firebaseConfig = {
+                apiKey: "AIzaSyAz6p5Wza5KhbEqeTMFti77zc7wjfyciJg",
+                authDomain: "miniproject1-5-book.firebaseapp.com",
+                projectId: "miniproject1-5-book",
+                storageBucket: "miniproject1-5-book.appspot.com",
+                messagingSenderId: "665433573451",
+                appId: "1:665433573451:web:6fb2e14433450e6a28a5ce",
+                measurementId: "G-8TJ2GHPBR2"
+            };
+
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            const analytics = getAnalytics(app);
+
+            import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+
+            document.getElementById("signInButton").addEventListener('click', (event) => {
+                event.preventDefault();
+                const email = document.getElementById("signInId").value;
+                const password = document.getElementById("signInPassword").value;
+
+                const auth = getAuth();
+                signInWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        // Signed in 
+                        const user = userCredential.user;
+                        window.location.href = "../main/index.html";
+                        // ...
+                    })
+                    .catch((error) => {
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                    });
+                console.log(app)
+            });
+            // "회원가입" 링크를 클릭할 때 회원가입 페이지로 이동
+            document.querySelector(".find_text").addEventListener('click', (event) => {
+                event.preventDefault(); // 기본 동작을 막아 클릭 시 페이지가 새로고침되지 않도록 합니다.
+
+                // 회원가입 페이지의 URL을 지정합니다.
+                const signUpPageURL = "create.html"; // 이 URL을 회원가입 페이지의 URL로 교체하세요.
+
+                // 현재 탭에서 회원가입 페이지로 이동합니다.
+                window.location.href = signUpPageURL;
+            });
+
+        </script>
 </body>
 
 </html>
