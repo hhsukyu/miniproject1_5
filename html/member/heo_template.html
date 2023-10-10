@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="ko" data-bs-theme="auto">
+
+<head>
+    <script src="../../js/color-modes.js"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.118.2">
+    <title>오색빛깔</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/product/">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="../../css/product.css" rel="stylesheet">
+
+    <style>
+        @import url(reset.css);
+
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+        .b-example-divider {
+            width: 100%;
+            height: 3rem;
+            background-color: rgba(0, 0, 0, .1);
+            border: solid rgba(0, 0, 0, .15);
+            border-width: 1px 0;
+            box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+        }
+
+        .b-example-vr {
+            flex-shrink: 0;
+            width: 1.5rem;
+            height: 100vh;
+        }
+
+        .bi {
+            vertical-align: -.125em;
+            fill: currentColor;
+        }
+
+        .nav-scroller {
+            position: relative;
+            z-index: 2;
+            height: 2.75rem;
+            overflow-y: hidden;
+        }
+
+        .nav-scroller .nav {
+            display: flex;
+            flex-wrap: nowrap;
+            padding-bottom: 1rem;
+            margin-top: -1px;
+            overflow-x: auto;
+            text-align: center;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .btn-bd-primary {
+            --bd-violet-bg: #712cf9;
+            --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+
+            --bs-btn-font-weight: 600;
+            --bs-btn-color: var(--bs-white);
+            --bs-btn-bg: var(--bd-violet-bg);
+            --bs-btn-border-color: var(--bd-violet-bg);
+            --bs-btn-hover-color: var(--bs-white);
+            --bs-btn-hover-bg: #6528e0;
+            --bs-btn-hover-border-color: #6528e0;
+            --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+            --bs-btn-active-color: var(--bs-btn-hover-color);
+            --bs-btn-active-bg: #5a23c8;
+            --bs-btn-active-border-color: #5a23c8;
+        }
+
+        .bd-mode-toggle {
+            z-index: 1500;
+        }
+
+        .intext {
+            width: 75%;
+            margin: auto 0 auto auto;
+            padding: 3%;
+        }
+
+        .myvideo {
+            width: 480px;
+            height: 480px;
+            padding: 20px;
+            float: left;
+        }
+
+        .introcontent {
+            width: 103%;
+        }
+
+        .bd-mode-toggle .dropdown-menu .active .bi {
+            display: block !important;
+        }
+
+        .member-content {
+            background-color: white;
+            width: 520px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: space-around;
+            height: auto;
+        }
+
+        .member-content-image {
+            margin: 10px;
+            padding-left: 20px;
+            padding-right: 20px;
+            background-color: green;
+            border-radius: 10px;
+            height: 350px;
+            width: 500px;
+        }
+
+        .member-content-description {
+            padding: 10px;
+            margin: 10px;
+            border-radius: 10px;
+            height: auto;
+            width: 500px;
+        }
+
+        .member-comment {
+            padding: 10px;
+            margin: 10px;
+            border-radius: 10px;
+            height: auto;
+            width: 500px;
+        }
+
+        .member-comment-input {
+            padding: 10px;
+            margin: 10px;
+            border-radius: 10px;
+            height: 150px;
+            width: 500px;
+        }
+    </style>
+</head>
+
+<body>
+    <script type="module">
+        import { db, collection, addDoc, getDocs } from "../../js/firebase.js";
+        import { query, orderBy, limit } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { doc, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+        // 사용자
+        const USER = "kim";
+
+        // 덧글이 출력될 div 영역 오브젝트
+        const commentListObject = document.querySelectorAll('.commentListObject');
+
+        // 등록 버튼 오브젝트
+        const createButtons = document.querySelectorAll('.createBtn');
+
+        // 덧글 input text 오브젝트
+        const commentTexts = document.querySelectorAll('.commentText');
+
+        // 등록버튼 클릭 이벤트
+        createButtons.forEach((button) => {
+            button.addEventListener('click', function (event) {
+                const contentId = event.target.getAttribute("data-contentId");
+
+                createComment(contentId);
+            });
+        });
+
+        // 덧글 리스트 가져오기
+        const getComment = async () => {
+
+            // 덧글 정렬을 위한 쿼리
+            const comments = collection(db, "comments");
+            const sortedComments = query(comments, orderBy("create_dt", "asc"));
+            const resultComment = await getDocs(sortedComments);
+
+            // 덧글 리스트 순회
+            resultComment.forEach((comment) => {
+                commentListObject.forEach((list) => {
+                    if (Number(list.dataset.contentid) === comment.data().content_id
+                        && comment.data().content_user === USER) {
+                        const isnertHtml = `
+                            <div class="mb-3" style="display:flex; gap:16px; width:100%">
+                              <label for="exampleFormControlTextarea1" class="form-label" style="width:10%">홍길동</label>
+                              <div style="width:90%; display:flex; flex-direction:column; gap:8px">
+                                <textarea class="form-control" id="${comment.id}" rows="3">${comment.data().comment}</textarea>
+                                <div style="display:flex; gap:8px; justify-content: flex-end">
+                                <button class="btn btn-primary deleteBtn" type="button" data-itemid="${comment.id}" data-contentId="${comment.data().content_id}">삭제</button>
+                                <button class="btn btn-primary updateBtn" type="button" data-itemid="${comment.id}" data-contentId="${comment.data().content_id}">수정</button>
+                              </div>
+                              </div>
+                            </div>
+                          `;
+                        list.insertAdjacentHTML("beforeend", isnertHtml);
+                    }
+                });
+            });
+
+            // 수정 버튼 이벤트 리스너 등록
+            const updateButtons = document.querySelectorAll('.updateBtn');
+            updateButtons.forEach((updateBtn) => {
+                updateBtn.addEventListener('click', function (event) {
+                    const contentId = event.target.getAttribute("data-contentId");
+                    const itemId = event.target.getAttribute("data-itemid");
+
+                    updateComment(contentId, itemId);
+                });
+            });
+
+            // 삭제 버튼 이벤트 리스너 등록
+            const deleteButtons = document.querySelectorAll('.deleteBtn');
+
+            deleteButtons.forEach((deleteBtn) => {
+                deleteBtn.addEventListener('click', function (event) {
+                    const contentId = event.target.getAttribute("data-contentId");
+                    const itemId = event.target.getAttribute("data-itemid");
+
+                    deleteComment(contentId, itemId);
+                });
+            });
+        }
+
+        getComment();
+
+        // 덧글 수정하기
+        const updateComment = (contentId, itemId) => {
+            if (!confirm("수정하시겠습니까?")) {
+                return;
+            }
+
+            const commentValue = document.querySelector(`#${itemId}`).value;
+            const docRef = doc(db, "comments", itemId);
+            const updateData = {
+                "comment": commentValue
+            }
+
+            updateDoc(docRef, updateData)
+                .then(docRef => {
+                    window.location.reload();
+                    alert("수정 성공");
+                })
+                .catch(error => {
+                    alert(error);
+                })
+        }
+
+        // 덧글 삭제하기
+        const deleteComment = (contentId, itemId) => {
+            if (!confirm("삭제하시겠습니까?")) {
+                return;
+            }
+
+            const docRef = doc(db, "comments", itemId);
+
+            deleteDoc(docRef)
+                .then(() => {
+                    window.location.reload();
+                    alert("삭제 성공");
+                })
+                .catch((error) => {
+                    alert(error);
+                });
+        }
+
+        // 덧글 등록하기
+        const createComment = async (contentId) => {
+
+            let commentText = "";
+
+            commentTexts.forEach((text) => {
+                const currentContentId = text.dataset.contentid;
+
+                if (Number(contentId) === Number(currentContentId)) {
+                    commentText = text.value;
+                }
+            });
+
+            const doc = {
+                "content_id": Number(contentId)
+                , "content_user": "kim"
+                , "comment": commentText
+                , "create_dt": new Date()
+            };
+
+            await addDoc(collection(db, "comments"), doc)
+                .then(() => {
+                    window.location.reload();
+                    alert("등록 성공");
+                });
+        }
+    </script>
+
+    <!-- Nav -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+        <symbol id="aperture" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+            stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" />
+            <path
+                d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83m13.79-4l-5.74 9.94" />
+        </symbol>
+        <symbol id="cart" viewBox="0 0 16 16">
+            <path
+                d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+        </symbol>
+        <symbol id="chevron-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+        </symbol>
+    </svg>
+    <nav class="navbar navbar-expand-md bg-dark sticky-top border-bottom" data-bs-theme="dark">
+        <div class="container">
+            <a class="navbar-brand d-md-none" href="#">
+                <svg class="bi" width="24" height="24">
+                    <use xlink:href="#aperture" />
+                </svg>
+                Aperture
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas"
+                aria-controls="#offcanvas" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="#offcanvas" aria-labelledby="#offcanvasLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="#offcanvasLabel">Aperture</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav flex-grow-1 justify-content-between">
+                        <li class="nav-item"><a class="nav-link" href="#">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-5-circle" viewBox="0 0 16 16">
+                                    <path
+                                        d="M1 8a7 7 0 1 1 14 0A7 7 0 0 1 1 8Zm15 0A8 8 0 1 0 0 8a8 8 0 0 0 16 0Zm-8.006 4.158c-1.57 0-2.654-.902-2.719-2.115h1.237c.14.72.832 1.031 1.529 1.031.791 0 1.57-.597 1.57-1.681 0-.967-.732-1.57-1.582-1.57-.767 0-1.242.45-1.435.808H5.445L5.791 4h4.705v1.103H6.875l-.193 2.343h.064c.17-.258.715-.68 1.611-.68 1.383 0 2.561.944 2.561 2.585 0 1.687-1.184 2.806-2.924 2.806Z" />
+                                </svg>
+                            </a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Visitors' Book</a></li>
+                        <li class="nav-item" id="loginNavItem"><a class="nav-link" href="../login/login.html">Login</a>
+                        </li>
+                        <li class="nav-item" id="userNavItem"><a class="nav-link" href="#">
+                                <span id="userEmail"></span>
+                            </a></li>
+                        <li class="nav-item" id="logoutNavItem" style="display: none;">
+                            <a class="nav-link" href="#" id="logoutButton">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Nav End -->
+
+    <!-- Main -->
+    <main>
+        <!-- introduce -->
+        <div class="myvideo">
+            <video src="../../images/hahnpics/myvideo.mp4" controls loop muted autoplay width="480px"
+                height="430px"></video></video>
+        </div>
+        <div class="intext">
+            <h1>허성현</h1>
+            <h2>"사유하는 개발자"</h2>
+            <h4>평안하십니까? 여러분과 함께 내일배움캠프에서 성장할 '허성현' 입니다!</h4>
+            <h4>아래는 저의 TMI들 입니다. 비슷한 경험이 있으시거나 관심이 생기신다면 언제든 편하게 말 걸어주세요!<h4>
+                    <h4>저는 98년생으로 26살입니다! 졸업은 20년도에 했으나 ROTC를 하면서 장교로 전역하고 현재 취업 준비 중입니다.</h4>
+                    <h4>이번 캠프를 통해서 저는 매일 어제의 나보다 더 성장하는 사람이 되고 싶습니다. 오직 성장에만 집중 할 수 있도록 스스로 다잡고 있습니다!</h4>
+                    <h4>저번 주 월요일에 인생을 살면서 처음으로 펌이라는 것을 해봤습니다. 항상 짧은 머리로 살아왔어서 아직 머리가 적응이 어렵습니다.</h4>
+                    <h4>사진은 제가 26년을 살아오면서 정말 좋아한다고 말할 수 있는 사진을 찍는 저의 모습입니다. 언젠가는 저만으 사진으로 작은 전시회를 열고 싶다는 꿈이 있습니다.
+                    </h4>
+                    <h4>커피나 차도 정말 좋아합니다. 커피는 오늘도 4잔 먹었는데요. 핸드드립으로 직접 커피를 우리거나 차를 직접 우려내는 것도 좋아합니다.</h4>
+                    <h4>다음으로 저의 MBTI와 성격, 장점, 협업스타일을 알아봅시다.</h4>
+        </div>
+        </div>
+        <!-- introduce End -->
+
+        <!-- post -->
+        <div class="introcontent">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div class="col">
+                    <div class="member-content">
+                        <div class="member-content-image"
+                            style="background-image: url(../../images/hahnpics/1.hahn.jpg); background-size: 500px 350px;">
+                        </div>
+                        <div class="member-content-description">
+                            <H3>INTJ와 ESTJ</H3>
+                            <h5>저는 '용의주도한 전략가', '엄격한 관리자'의 두 모습을 가지고 있습니다!</h5>
+                            <h5>공적인 자리에서 저의 모습은 ESTJ의 모습이 더 큽니다.</h5>
+                            <h5>효율적으로 일하고 싶어하고 일의 진척이 늦거나 할 때 나서서 먼저 해결하려고 합니다.</h5>
+                            <h5>사적인 자리에서 저는 INTJ의 모습인 것 같습니다.</h5>
+                            <h5>제가 관심있어하는 분야에 빠져들었을 때는 혼자서 계속해서 깊이있게 파고들어가는 것을 좋아합니다.</h5>
+                        </div>
+                        <div class="member-comment commentListObject" id="commentList" data-contentId="0"></div>
+                        <div class="member-comment-input">
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text">Comment</span>
+                                <textarea class="form-control commentText" aria-label="With textarea"
+                                    data-contentId="0"></textarea>
+                            </div>
+                            <div style="width: 100%; padding-top: 10px; display: flex; justify-content: flex-end;">
+                                <button class="btn btn-primary px-4 createBtn" type="button" data-contentId="0">
+                                    등록
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="member-content">
+                        <div class="member-content-image"
+                            style="background-image: url(../../images/hahnpics/2.hahn.jpg); background-size: 500px 350px;">
+                        </div>
+                        <div class="member-content-description">
+                            <H3>Strong & Weak Features</H3>
+                            <h5>1. 관심이 있고 좋아하는 것에는 정말 끝까지 파고들려고 한다. </h5>
+                            <h5>2. 하지만 관심이 안생기는 것에는 죽어도 관심이 안생긴다.</h5>
+                            <h5>3. 추진력을 받으면 일을 순식간에 해치운다.</h5>
+                            <h5>4. 추진력을 받기 위해서 정말 긴 예열 시간이 필요하다.</h5>
+                            <h5>이런 제 모습에서 단점은 극복하고 장점은 극대화하는 모습 보여드리겠습니다.</h5>
+                        </div>
+                        <div class="member-comment commentListObject" id="commentList" data-contentId="1"></div>
+                        <div class="member-comment-input">
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text">Comment</span>
+                                <textarea class="form-control commentText" aria-label="With textarea"
+                                    data-contentId="1"></textarea>
+                            </div>
+                            <div style="width: 100%; padding-top: 10px; display: flex; justify-content: flex-end;">
+                                <button class="btn btn-primary px-4 createBtn" type="button" data-contentId="1">
+                                    등록
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="member-content">
+                        <div class="member-content-image"
+                            style="background-image: url(../../images/hahnpics/3.hahn.jpg); background-size: 500px 350px;">
+                        </div>
+                        <div class="member-content-description">
+                            <H3>Collaboration Style</H3>
+                            <h5>리더, 팔로워 무슨 역할이든 주어진 역할에 충실하고자 합니다.</h5>
+                            <h5>어느 자리에 있든 조직에서 현재 가장 필요한 것이 무엇인지 생각하며 적극적으로 어필하고자 합니다.</h5>
+                            <h5>어떻게 해서든 결과를 내고자 하고 이를 위해 맡은 제 역할을 해내고자 합니다. </h5>
+                            <h5>어떤 역할이든 맡겨만 주시면 최선을 다하는 모습 보여드리겠습니다.</h5>
+                            <h5>앞으로 여러분들과 같이 협업할 날을 기다리겠습니다!</h5>
+                        </div>
+                        <div class="member-comment commentListObject" id="commentList" data-contentId="2"></div>
+                        <div class="member-comment-input">
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text">Comment</span>
+                                <textarea class="form-control commentText" id="comment" aria-label="With textarea"
+                                    data-contentId="2"></textarea>
+                            </div>
+                            <div style="width: 100%; padding-top: 10px; display: flex; justify-content: flex-end;">
+                                <button class="btn btn-primary px-4 createBtn" type="button" data-contentId="2">
+                                    등록
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- post End -->
+
+    </main>
+    <!-- Main End -->
+
+    <!-- Footer -->
+    <footer class="container py-5">
+        <div class="row">
+            <div class="col-12 col-md">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-5-circle" viewBox="0 0 16 16">
+                    <path
+                        d="M1 8a7 7 0 1 1 14 0A7 7 0 0 1 1 8Zm15 0A8 8 0 1 0 0 8a8 8 0 0 0 16 0Zm-8.006 4.158c-1.57 0-2.654-.902-2.719-2.115h1.237c.14.72.832 1.031 1.529 1.031.791 0 1.57-.597 1.57-1.681 0-.967-.732-1.57-1.582-1.57-.767 0-1.242.45-1.435.808H5.445L5.791 4h4.705v1.103H6.875l-.193 2.343h.064c.17-.258.715-.68 1.611-.68 1.383 0 2.561.944 2.561 2.585 0 1.687-1.184 2.806-2.924 2.806Z" />
+                </svg>
+                오색조
+            </div>
+            <div class="col-6 col-md">
+                <h5>Home</h5>
+            </div>
+            <div class="col-6 col-md">
+                <h5>Visitors' Book</h5>
+            </div>
+            <div class="col-6 col-md">
+                <h5>Login</h5>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer End -->
+
+    <script src="../../js/bootstrap.bundle.min.js"></script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyAz6p5Wza5KhbEqeTMFti77zc7wjfyciJg",
+            authDomain: "miniproject1-5-book.firebaseapp.com",
+            projectId: "miniproject1-5-book",
+            storageBucket: "miniproject1-5-book.appspot.com",
+            messagingSenderId: "665433573451",
+            appId: "1:665433573451:web:6fb2e14433450e6a28a5ce",
+            measurementId: "G-8TJ2GHPBR2"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+
+        // 페이지 로드 시 로그인 상태 확인
+        onAuthStateChanged(auth, (user) => {
+            const userEmailElement = document.getElementById("userEmail");
+            const loginNavItem = document.getElementById("loginNavItem");
+            const userNavItem = document.getElementById("userNavItem");
+            const logoutNavItem = document.getElementById("logoutNavItem");
+            const logoutButton = document.getElementById("logoutButton");
+
+
+            if (user) {
+                // 사용자가 로그인한 경우
+                const userEmail = user.email;
+                userEmailElement.textContent = userEmail;
+                // 여기에서 로그인 상태를 유지하는 로직을 추가할 수 있습니다.
+
+                // 로그인 버튼 숨기기, 사용자 정보 표시
+                loginNavItem.style.display = "none";
+                userNavItem.style.display = "block";
+                logoutNavItem.style.display = "block";
+
+
+                // 로그아웃 버튼 클릭 시 로그아웃
+                logoutButton.addEventListener("click", () => {
+                    signOut(auth)
+                        .then(() => {
+                            // 로그아웃 성공 시 페이지 새로고침
+                            window.location.reload();
+                        })
+                        .catch((error) => {
+                            console.error("로그아웃 중 오류 발생:", error);
+                        });
+                });
+            } else {
+                // 사용자가 로그인하지 않은 경우
+                userEmailElement.textContent = ""; // 빈 문자열로 설정
+
+                // 로그인 버튼 표시, 사용자 정보 숨기기
+                loginNavItem.style.display = "block";
+                userNavItem.style.display = "none";
+                logoutNavItem.style.display = "none";
+            }
+        });
+    </script>
+</body>
+
+</html>
