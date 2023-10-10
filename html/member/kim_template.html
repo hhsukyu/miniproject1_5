@@ -298,7 +298,7 @@
 
             const doc = {
                 "content_id": Number(contentId)
-                , "content_user": "kim"
+                , "content_user": USER
                 , "comment": commentText
                 , "create_dt": new Date()
             };
@@ -370,21 +370,22 @@
     <main>
         <!-- introduce -->
         <div class="myvideo">
-            <video src="../../images/hahnpics/myvideo.mp4" controls loop muted autoplay width="480px"
-                height="430px"></video></video>
+            <div class="member-content-image"
+                style="background-image: url(../../images/kim/FirstView.jpeg); background-size: 500px 350px;">
+            </div>
         </div>
         <div class="intext">
             <h1>김승태</h1>
-            <h2>"미래의 디지털 노마드 개발자"</h2>
-            <h4>안녕하세요, 한수경입니다. 저의 개인 페이지를 방문하신 여러분~ 환영합니다. 빠밤!
-                <h4>저의 MBTI 및 성격, 장점, 협업 스타일을 알아보기 전에 저의 TMI부터 알아보겠습니다.<h4>
-                        <h4>생일은 10월 30일입니다. 얼마 안 남았죠? 생일이 되면 축하해 주세요! 축하해 주신다면 기쁠 것입니다.</h4>
-                        <h4>최종 목표는 비전공자이지만 느리지만 꾸준히 하여 디지털 노마드 개발자가 되는 것입니다.</h4>
-                        <h4>옆에 보이는 동영상은 내일배움캠프의 신문만들기 강의를 통해 만들어본 디지털 노마드 개발자가 된 저입니다.</h4>
-                        <h4>제가 안경을 안 쓰는 날에는 거의 화장을 합니다. 시력이 많이 안 좋아서 안경을 꼭 써야해요.
+            <h2>"성장하는 개발자"</h2>
+            <h4>안녕하세요, 김승태입니다. 앞으로 내일배움 캠프를 함께할 여러분들 잘부탁드립니다😄
+                <h4>이 페이지는 저의 TMI로 가득할 예정이니 주의 하세요!!<h4>
+                        <h4>저는 1997년 11월 19일에 태어나서 올해로 27살 이에요.</h4>
+                        <h4>경기도 화성에서 27년 살았지만 올해 수원시로 이사온 수원 시민이랍니다.</h4>
+                        <h4>저는 집에서 쉴때 주로 게임을 하면서 쉬어요. (약속없으면 안나가는편)</h4>
+                        <h4>최근에는 조기축구팀 "태풍FC"에 가입하여 활동중입니다.
                         </h4>
-                        <h4>이번 내일배움캠프를 통해 많은 개발자동료를 만들고 싶습니다.</h4>
-                        <h4>지금까지 제 TMI를 읽어주셔서 감사합니다. 이제 저의 MBTI 및 성격, 장점, 협업스타일을 알아봅시다.</h4>
+                        <h4>이번 내일배움캠프라는 좋은 프로그램을 통해 우상향하는 개발자가 되고 싶습니다.</h4>
+                        <h4>개발자라는 직업은 평생 오류를 직면하는 직업이라고 합니다. 그럴때마다 포기하지 않고 나아가겠습니다.</h4>
         </div>
         </div>
         <!-- introduce End -->
@@ -395,24 +396,24 @@
                 <div class="col">
                     <div class="member-content">
                         <div class="member-content-image"
-                            style="background-image: url(../../images/hahnpics/1.hahn.jpg); background-size: 500px 350px;">
+                            style="background-image: url(../../images/kim/kim1.jpeg); background-size: 500px 350px;">
                         </div>
                         <div class="member-content-description">
-                            <H3>한수경의 MBTI 및 성격을 알아보자</H3>
-                            <h5>사진을 보고 제 MBTI를 예측해 주세요~</h5>
-                            <h5>예측하셨나요? 두근두근 정답은?</h5>
-                            <h5>저는 INFP입니다. 맞추시는 분은 축하드립니다!!</h5>
-                            <h5>사진은 활발하게 보일 수 있지만 사실은 무척이나 소심하고 낯도 많이 가립니다. 하지만 친해지면 사진처럼 활발한 모습도 보여줍니다.
-                                <h5>여러분들의 간택을 기다립니다! 많관부~</h5>
+                            <H3>저의 MBTI는요</H3>
+                            <h5>저는 ISFP입니다.</h5>
+                            <h5>사실 MBTI같은 심리검사를 그렇게 신뢰 하진않았어요</h5>
+                            <h5>그러던중 최근에 ISFP에 특징을 찾아보았는데 저랑 나름 맞는 부분이 많은거 같아서 신기했었습니다.</h5>
+                            <h5>I 답게 많이 소심한편이에요~ 지나가다 인사 먼져해주시면 우렁차게 인사드리겠습니다!!
+                                <h5></h5>
                         </div>
-                        <div class="member-comment commentListObject" id="commentList" data-contentId="0"></div>
+                        <div class="member-comment" id="commentList"></div>
                         <div class="member-comment-input">
                             <div class="input-group input-group-lg">
                                 <span class="input-group-text">Comment</span>
-                                <textarea class="form-control commentText" aria-label="With textarea" data-contentId="0"></textarea>
+                                <textarea class="form-control" id="comment" aria-label="With textarea"></textarea>
                             </div>
                             <div style="width: 100%; padding-top: 10px; display: flex; justify-content: flex-end;">
-                                <button class="btn btn-primary px-4 createBtn" type="button" data-contentId="0">
+                                <button class="btn btn-primary px-4" type="button" id="createBtn">
                                     등록
                                 </button>
                             </div>
@@ -422,25 +423,23 @@
                 <div class="col">
                     <div class="member-content">
                         <div class="member-content-image"
-                            style="background-image: url(../../images/hahnpics/2.hahn.jpg); background-size: 500px 350px;">
+                            style="background-image: url(../../images/kim/kim2.jpeg); background-size: 500px 350px;">
                         </div>
                         <div class="member-content-description">
-                            <H3>한수경의 장점을 알아보자</H3>
-                            <h5>저는 책임감 있고 배려가 있다고 생각합니다.</h5>
-                            <h5>하지만 객관적으로 친구들에게 물어봤습니다.</h5>
-                            <h5>공통적으로 제 장점은 책임감, 배려, 꼼꼼함 입니다.</h5>
-                            <h5> 제가 맡은 일은 끝까지 다한다는 점, 일정 같은 챙길것이 있으면 확인한다는 점, 늘 상대방을 생각해서 행동하는 점으로 위의 평가를 해준 것 같습니다.
+                            <H3>김승태의 장점</H3>
+                            <h5>저는 시간약속을 잘지키고 무책임 하지는 않은것 같습니다.</h5>
+                            <h5>취업하기전 알바도 자주 했었는데 알바를 하면서 한번도 지각한적이 없었고</h5>
+                            <h5>사장님이 안계실때도 내 가게다 라는 생각을 가지고 일을 했었는데 사장님이 좋게 봐주셔서 밥도 많이 사주시고 챙겨주셨어요.</h5>
                             </h5>
-                            <h5>제 장점을 활용해 열심히 하겠습니다!</h5>
                         </div>
-                        <div class="member-comment commentListObject" id="commentList" data-contentId="1"></div>
+                        <div class="member-comment" id="commentList"></div>
                         <div class="member-comment-input">
                             <div class="input-group input-group-lg">
                                 <span class="input-group-text">Comment</span>
-                                <textarea class="form-control commentText" aria-label="With textarea" data-contentId="1"></textarea>
+                                <textarea class="form-control" id="comment" aria-label="With textarea"></textarea>
                             </div>
                             <div style="width: 100%; padding-top: 10px; display: flex; justify-content: flex-end;">
-                                <button class="btn btn-primary px-4 createBtn" type="button" data-contentId="1">
+                                <button class="btn btn-primary px-4" type="button" id="createBtn">
                                     등록
                                 </button>
                             </div>
@@ -450,24 +449,24 @@
                 <div class="col">
                     <div class="member-content">
                         <div class="member-content-image"
-                            style="background-image: url(../../images/hahnpics/3.hahn.jpg); background-size: 500px 350px;">
+                            style="background-image: url(../../images/kim/kim3.jpeg); background-size: 500px 350px;">
                         </div>
                         <div class="member-content-description">
-                            <H3>한수경의 협업 스타일을 알아보자</H3>
-                            <h5>저는 리더보다는 서포트에 적합하다고 생각합니다.</h5>
-                            <h5>저는 직접적으로 의견을 내기보다는 주로 경청합니다.</h5>
-                            <h5>하지만 경청만 하는 것은 아닙니다.</h5>
-                            <h5>바로 생각하고 말하기보다는 혼자 생각을 정리하고 추후에 자신의 의견을 이야기하는 편이기에 당장은 의견이 없어서 답답해 보일 수도 있습니다.</h5>
-                            <h5>앞으로 최선을 다해 협업하겠습니다.</h5>
+                            <H3>김승태의 협업 스타일을 알아보자</H3>
+                            <h5>저는 개발은 결국 혼자하는것이 아니기 때문에 팀원이 가장 중요하다고 생각합니다.</h5>
+                            <h5>그런 팀원이 때론 저보다 잘하시는분도 계시고 조금 부족한 분도 계실수도 있습니다.</h5>
+                            <h5>혼자만 앞서 가는것이 아닌 같이 걸어가는 것이 중요하다고 생각이 듭니다.</h5>
+                            <h5>그만큼 팀원간 유대가 중요하기에 앞으로 프로젝트 진행시 회식을 추진할수 있도록 해보겠습니다~</h5>
+                            <h5>회식을 통해 더욱 유대감을 형성하면 힘든 프로젝트도 잘해쳐나갈것 입니다!</h5>
                         </div>
-                        <div class="member-comment commentListObject" id="commentList" data-contentId="2"></div>
+                        <div class="member-comment" id="commentList"></div>
                         <div class="member-comment-input">
                             <div class="input-group input-group-lg">
                                 <span class="input-group-text">Comment</span>
-                                <textarea class="form-control commentText" id="comment" aria-label="With textarea" data-contentId="2"></textarea>
+                                <textarea class="form-control" id="comment" aria-label="With textarea"></textarea>
                             </div>
                             <div style="width: 100%; padding-top: 10px; display: flex; justify-content: flex-end;">
-                                <button class="btn btn-primary px-4 createBtn" type="button" data-contentId="2">
+                                <button class="btn btn-primary px-4" type="button" id="createBtn">
                                     등록
                                 </button>
                             </div>
