@@ -134,6 +134,7 @@
         import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
 
 
         // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -151,10 +152,19 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-
-        //세션 구현값
-
-        //작성하기 버튼 누르면 실행, 데이터 값 받아오기
+        //인증상태 확인 작성하기 실행
+        const authdata = getAuth();
+        onAuthStateChanged(authdata, (user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/auth.user
+              $savebtn.go('postimg')
+            } else {
+                alert('로그인을 하시오');
+                // User is signed out
+                // ...
+            }
+        });
 
         //실시간시계 작동 코드
         $(function a() {
@@ -163,66 +173,11 @@
             setInterval(a, 1000);
         })
 
-        function b(){
-            var userid = $('#signInId');
-            $('#time').text(time);
-            setInterval(a, 1000);
-        }
-
-         //로그인 여부 확인
-         import { } from '';
-
-//게시물 등록 누르면 실행 만일 로그인 x
-$("#postingbtn").click(async function () {
-
-    const is_login = useSelector((state) => state.user.is_login);
-
-    if (is_login) {
-        return alert(('로그인을 진행해주세요!'));
-    } else {
-
-        let comment = $('#comment').val();
-    }
-})
-
-       
-
-
-
-
-        //유저아이디받기
-        $(document).ready(function a() {
-
-        })
-
-
         // 작성하기 열고닫는 토글
         $("#savebtn").click(async function () {
             $('#posting').toggle();
         })
 
-
-        let docs = await getDocs(collection(db, "books"));
-        docs.forEach((doc) => {
-            let row = doc.data();
-
-            let userid = row['signInId']
-            let comment = row['comment'];
-            let recordtime = row['recordtime'];
-
-            let temp_html = ` 
-            <div class="col">
-                <div class="card text-center">
-                        <div class="card-header">${username}</div>
-                        <div class="card-body">
-                            <p class="card-text">${comment}</p>
-                        </div>
-                        <div class="card-footer text-body-secondary">${recordtime}</div>
-                    </div>
-                </div>`
-
-            $('#card').append(temp_html);
-        }); 
     </script>
 
 
@@ -326,9 +281,6 @@ $("#postingbtn").click(async function () {
         <!-- 방명록작성하기 -->
         <div class="mypostingbox" id="posting">
             <h4>방명록 작성하기</h4>
-            <h6>현재 시간 : <span id="time"></span></h6>
-            <h6>로그인 아이디 : <span id="userid"></span></h6>
-
             <div class="form-floating">
                 <textarea class="form-control" placeholder="Leave a comment here" id="comment"
                     style="height: 100px"></textarea>
