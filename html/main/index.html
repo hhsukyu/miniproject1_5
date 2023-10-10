@@ -170,6 +170,7 @@
                         <li class="nav-item" id="userNavItem"><a class="nav-link" href="#">
                                 <span id="userEmail"></span>
                             </a></li>
+                            <li class="nav-item"><span id="clock" class="nav-link" href="#"></span></li>
                         <li class="nav-item" id="logoutNavItem" style="display: none;">
                             <a class="nav-link" href="#" id="logoutButton">Logout</a>
                         </li>
@@ -363,5 +364,34 @@
         });
     </script>
 </body>
+
+<script>
+    function startTime() {
+        var today = new Date();
+
+      var dd = today.getDate();
+      var mm = today.getMonth()+1; 
+      var yyyy = today.getFullYear();
+
+      if(dd<10) {
+        dd='0'+dd
+      } 
+      if(mm<10) {
+        mm='0'+mm
+      } 
+        var h = today.getHours();
+        var m = today.getMinutes();
+        var s = today.getSeconds();
+        m = checkTime(m);
+        s = checkTime(s);
+        document.getElementById('clock').innerHTML = yyyy + "-" + mm + "-" + dd + " " + h + ":" + m + ":" + s;
+        setTimeout(startTime, 500);
+    }
+    function checkTime(i) {
+        if (i < 10) {i = "0" + i}; 
+        return i;
+    }
+    startTime();
+    </script>
 
 </html>
