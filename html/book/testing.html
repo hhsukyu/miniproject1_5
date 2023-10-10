@@ -100,11 +100,6 @@
             background-color: #712cf9;
         }
 
-        .main {
-            background-color: green;
-
-        }
-
         .mypostingbox {
             width: 700px;
             margin: 20px auto 20px auto;
@@ -156,37 +151,50 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+
+        //세션 구현값
+
         //작성하기 버튼 누르면 실행, 데이터 값 받아오기
-        $("#postingbtn").click(async function () {
-            let username = $('#username').val();
-            let comment = $('#comment').val();
-            var recordtime = new Date().toLocaleString();
-            $('#recordtime').val();
-
-            //let recordtime = $('#recordtime').val(new Date().toLocaleString());
-            //new Date().toLocaleString()=$('#recordtime').val();
-            // $('#recordtime').text(recordtime);
-            // $('#recordtime').val();
-            //alert(recordtime);
-
-            let doc = {
-                'username': username,
-                'comment': comment,
-                'recordtime': recordtime
-            };
-
-            //firebase에 넣고 등록완료시 알림뜨기
-            await addDoc(collection(db, "books"), doc);
-            alert('등록 완료!');
-            window.location.reload();
-        })
 
         //실시간시계 작동 코드
-        $(document).ready(function a() {
+        $(function a() {
             var time = new Date().toLocaleString();
             $('#time').text(time);
             setInterval(a, 1000);
         })
+
+        function b(){
+            var userid = $('#signInId');
+            $('#time').text(time);
+            setInterval(a, 1000);
+        }
+
+         //로그인 여부 확인
+         import { } from '';
+
+//게시물 등록 누르면 실행 만일 로그인 x
+$("#postingbtn").click(async function () {
+
+    const is_login = useSelector((state) => state.user.is_login);
+
+    if (is_login) {
+        return alert(('로그인을 진행해주세요!'));
+    } else {
+
+        let comment = $('#comment').val();
+    }
+})
+
+       
+
+
+
+
+        //유저아이디받기
+        $(document).ready(function a() {
+
+        })
+
 
         // 작성하기 열고닫는 토글
         $("#savebtn").click(async function () {
@@ -198,13 +206,13 @@
         docs.forEach((doc) => {
             let row = doc.data();
 
-            let username = row['username'];
+            let userid = row['signInId']
             let comment = row['comment'];
             let recordtime = row['recordtime'];
 
             let temp_html = ` 
             <div class="col">
-                    <div class="card text-center">
+                <div class="card text-center">
                         <div class="card-header">${username}</div>
                         <div class="card-body">
                             <p class="card-text">${comment}</p>
@@ -285,24 +293,41 @@
         <div class="main">
             <div class="p-5 mb-4 bg-body-tertiary rounded-3">
                 <div class="container-fluid py-5">
-                    <h1 class="display-5 fw-bold">오색조의 방명록</h1>
-                    <p class="col-md-8 fs-4"> 여러분의 글 하나가 큰 힘이 됩니다.</p>
-                    <button id="savebtn" type="button" class="btn btn-outline-dark">작성하기</button>
+                    <h1 class="display-5 fw-bold">오색조의 방명록 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        &nbsp; &nbsp; &nbsp;우리 팀 소개</h1>
+                    <h5 class="col-md-8 fs-4"> 여러분의 글 하나가 큰 힘이 됩니다. &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+                        &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        &nbsp;우리 팀만의 특징</h5>
+                    <h5> 오색조 팀원의 블로그 방문하기 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        &nbsp;1.수도권에 산다.</h5>
+                    <h5><a href="https://velog.io/@sukyu" target="_blank"> 한수경의 블로그 방문하기</a> &nbsp;
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 2.다들 열성적이다.</h5>
+                    <h5><a href="https://velog.io/@hanlight910" target="_blank"> 이한빛의 블로그 방문하기</a></h5>
+                    <h5><a href="https://keep4sh.tistory.com/category" target="_blank"> 허성현의 블로그 방문하기</a> &nbsp;
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;추구하는 궁극적인 목표</h5>
+                    <h5><a href="https://seungtudy4.tistory.com/" target="_blank"> 김승태의 블로그 방문하기</a> &nbsp;
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;개성넘치는 오색조 조원들에 TMI와 소통할수 있는
+                        하나의 커뮤니티 사이트</h5>
+                    <h5><a href="https://velog.io/@miss1993" target="_blank"> 김다은의 블로그 방문하기</a></h5>
                 </div>
+
+                <button id="savebtn" type="button" class="btn btn-outline-dark">작성하기</button>
             </div>
+        </div>
         </div>
         <!-- 방명록작성하기 -->
         <div class="mypostingbox" id="posting">
             <h4>방명록 작성하기</h4>
             <h6>현재 시간 : <span id="time"></span></h6>
-
-            <div class="input-group mb-3">
-                <span class="input-group-text">@</span>
-                <div class="form-floating">
-                    <input type="text" class="form-control" id="username" placeholder="Username">
-                    <label for="floatingInputGroup1">사용자이름</label>
-                </div>
-            </div>
+            <h6>로그인 아이디 : <span id="userid"></span></h6>
 
             <div class="form-floating">
                 <textarea class="form-control" placeholder="Leave a comment here" id="comment"
