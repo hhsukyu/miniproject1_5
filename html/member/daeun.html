@@ -100,9 +100,10 @@
     .member-content {
       display: flex;
       flex-direction: column;
-      justify-content: space-around;
-      align-items: center;
       height: auto;
+      max-width: 600px;
+      padding: 0 15px;
+      margin: 0 auto;
     }
 
     .member-content-image {
@@ -112,7 +113,7 @@
       background-color: green;
       border-radius: 10px;
       height: 350px;
-      width: 500px;
+      
     }
 
     .member-content-description {
@@ -120,7 +121,7 @@
       margin: 10px;
       border-radius: 10px;
       height: auto;
-      width: 500px;
+      
     }
 
     .member-comment {
@@ -128,15 +129,15 @@
       margin: 10px;
       border-radius: 10px;
       height: auto;
-      width: 500px;
+      
     }
 
     .member-comment-input {
       padding: 10px;
       margin: 10px;
       border-radius: 10px;
-      height: 150px;
-      width: 500px;
+      
+      
     }
 
 
@@ -177,8 +178,8 @@
                               <div style="width:90%; display:flex; flex-direction:column; gap:8px">
                                 <textarea class="form-control" id="${comment.id}" rows="3">${comment.data().comment}</textarea>
                                 <div style="display:flex; gap:8px; justify-content: flex-end">
-                                <button class="btn btn-primary deleteBtn" type="button" id="deleteBtn" name="deleteBtn" data-itemid="${comment.id}">삭제</button>
                                 <button class="btn btn-primary updateBtn" type="button" id="updateBtn" data-itemid="${comment.id}">수정</button>
+                                <button class="btn btn-danger deleteBtn" type="button" id="deleteBtn" name="deleteBtn" data-itemid="${comment.id}">삭제</button>
                               </div>
                               </div>
                             </div>
