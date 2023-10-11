@@ -3,161 +3,18 @@
 
 <head>
   <script src="../../js/color-modes.js"></script>
-
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
   <meta name="generator" content="Hugo 0.118.2">
   <title>오색빛깔</title>
-
   <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/product/">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
   <link href="../../css/bootstrap.min.css" rel="stylesheet">
   <!-- Custom styles for this template -->
   <link href="../../css/product.css" rel="stylesheet">
-
-  <style>
-    @import url(reset.css);
-
-    .bd-placeholder-img {
-      font-size: 1.125rem;
-      text-anchor: middle;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      user-select: none;
-    }
-
-    @media (min-width: 768px) {
-      .bd-placeholder-img-lg {
-        font-size: 3.5rem;
-      }
-    }
-
-    .b-example-divider {
-      width: 100%;
-      height: 3rem;
-      background-color: rgba(0, 0, 0, .1);
-      border: solid rgba(0, 0, 0, .15);
-      border-width: 1px 0;
-      box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
-    }
-
-    .b-example-vr {
-      flex-shrink: 0;
-      width: 1.5rem;
-      height: 100vh;
-    }
-
-    .bi {
-      vertical-align: -.125em;
-      fill: currentColor;
-    }
-
-    .nav-scroller {
-      position: relative;
-      z-index: 2;
-      height: 2.75rem;
-      overflow-y: hidden;
-    }
-
-    .nav-scroller .nav {
-      display: flex;
-      flex-wrap: nowrap;
-      padding-bottom: 1rem;
-      margin-top: -1px;
-      overflow-x: auto;
-      text-align: center;
-      white-space: nowrap;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .btn-bd-primary {
-      --bd-violet-bg: #712cf9;
-      --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
-
-      --bs-btn-font-weight: 600;
-      --bs-btn-color: var(--bs-white);
-      --bs-btn-bg: var(--bd-violet-bg);
-      --bs-btn-border-color: var(--bd-violet-bg);
-      --bs-btn-hover-color: var(--bs-white);
-      --bs-btn-hover-bg: #6528e0;
-      --bs-btn-hover-border-color: #6528e0;
-      --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
-      --bs-btn-active-color: var(--bs-btn-hover-color);
-      --bs-btn-active-bg: #5a23c8;
-      --bs-btn-active-border-color: #5a23c8;
-    }
-
-    .bd-mode-toggle {
-      z-index: 1500;
-    }
-
-    .intext {
-      width: 75%;
-      margin: auto 0 auto auto;
-      padding: 3%;
-    }
-
-    .myvideo {
-      width: 480px;
-      height: 480px;
-      padding: 20px;
-      float: left;
-    }
-
-    .introcontent {
-      width: 103%;
-    }
-
-    .bd-mode-toggle .dropdown-menu .active .bi {
-      display: block !important;
-    }
-
-    .member-content {
-      background-color: white;
-      width: 520px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: space-around;
-      height: auto;
-    }
-
-    .member-content-image {
-      margin: 10px;
-      padding-left: 20px;
-      padding-right: 20px;
-      background-color: green;
-      border-radius: 10px;
-      height: 350px;
-      width: 500px;
-    }
-
-    .member-content-description {
-      padding: 10px;
-      margin: 10px;
-      border-radius: 10px;
-      height: auto;
-      width: 500px;
-    }
-
-    .member-comment {
-      padding: 10px;
-      margin: 10px;
-      border-radius: 10px;
-      height: auto;
-      width: 500px;
-    }
-
-    .member-comment-input {
-      padding: 10px;
-      margin: 10px;
-      border-radius: 10px;
-      height: 150px;
-      width: 500px;
-    }
-  </style>
+  <link href="../../css/member.css" rel="stylesheet">
 </head>
 
 <body>
@@ -180,14 +37,16 @@
 
       resultComment.forEach((comment) => {
         const isnertHtml = `
-                            <div class="mb-3" style="display:flex; gap:16px; width:100%">
-                              <label for="exampleFormControlTextarea1" class="form-label" style="width:10%">홍길동</label>
-                              <div style="width:90%; display:flex; flex-direction:column; gap:8px">
-                                <textarea class="form-control" id="${comment.id}" rows="3">${comment.data().comment}</textarea>
-                                <div style="display:flex; gap:8px; justify-content: flex-end">
+                            <div class="mb-3">
+                              <div class="d-flex align-items-center gap-3">
+                                <label for="exampleFormControlTextarea1" class="form-label" style="width:10%">홍길동</label>
+                                <div style="width:90%; display:flex; flex-direction:column; gap:8px">
+                                  <textarea class="form-control" id="${comment.id}" rows="3">${comment.data().comment}</textarea>
+                                </div>
+                              </div>
+                              <div class="d-flex justify-content-end gap-2 mt-1">
                                 <button class="btn btn-primary updateBtn" type="button" id="updateBtn" data-itemid="${comment.id}">수정</button>
                                 <button class="btn btn-danger deleteBtn" type="button" id="deleteBtn" name="deleteBtn" data-itemid="${comment.id}">삭제</button>
-                              </div>
                               </div>
                             </div>
                           `;
@@ -318,102 +177,103 @@
   <!-- Main -->
   <main>
     <!-- introduce -->
-    <div class="myvideo">
-      <video src="../../images/daeun/slow master.mp4" controls loop muted autoplay width="400px" height="430px"></video>
-    </div>
-    <div class="intext">
-      <h1>김다은</h1>
-      <h2>"노력하는 개발자"</h2>
-      <h4>안녕하세요, 김다은입니다.
-        <h4>우선 저의 MBTI 및 성격, 장점, 협업 스타일을 알아보기 전에 저의 TMI부터 알아보겠습니다.<h4>
-            <h4>저의 최종 목표는 노력하는 개발자가 되는것입니다. </h4>
-            <h4>저는 남들보다 느릴수는 있어도 완벽하게 할려고 노력하는 사람입니다.</h4>
-            <h4>이번 내일배움캠프로 좋은 분들 많이 만나서 많은 경험을 만들고 싶습니다.</h4>
-            <h4>지금까지 제 TMI를 읽어주셔서 감사합니다. 이제 저의 MBTI 및 성격, 장점, 협업스타일을 알아봅시다.</h4>
-    </div>
+    <div class="introduce d-flex flex-column flex-lg-row justify-content-center align-items-center gap-5 p-3">
+      <div class="myvideo">
+        <video src="../../images/daeun/slow master.mp4" controls loop muted autoplay width="480px"></video>
+      </div>
+      <div class="intext">
+        <h1>김다은</h1>
+        <h2 class="description fs-5 fst-italic">"노력하는 개발자"</h2>
+        <p>안녕하세요, 김다은입니다.
+        우선 저의 MBTI 및 성격, 장점, 협업 스타일을 알아보기 전에 저의 TMI부터 알아보겠습니다.
+        저의 최종 목표는 노력하는 개발자가 되는것입니다.
+        저는 남들보다 느릴수는 있어도 완벽하게 할려고 노력하는 사람입니다.
+        이번 내일배움캠프로 좋은 분들 많이 만나서 많은 경험을 만들고 싶습니다.
+        지금까지 제 TMI를 읽어주셔서 감사합니다. 이제 저의 MBTI 및 성격, 장점, 협업스타일을 알아봅시다.</p>
+      </div>
     </div>
     <!-- introduce End -->
 
     <!-- post -->
-    <div class="introcontent">
+    <div class="introcontent p-3">
       <div class="row row-cols-1 row-cols-md-3 g-4">
-        <div class="col">
-          <div class="member-content">
-            <div class="member-content-image"
-              style="background-image: url(../../images/daeun/niagara.JPG); background-size: 500px 350px;">
-            </div>
-            <div class="member-content-description">
-              <H3>김다은의 MBTI 및 성격을 알아보자</H3>
-              <h5>사진을 보고 제 MBTI를 예측해 주세요~</h5>
-              <h5>예측하셨나요? 두근두근 정답은?</h5>
-              <h5>저는 INFP입니다. </h5>
-              <h5>처음엔 소심하고 말도 없지만 친해지면 활발하게 활발한 모습도 보여줍니다.</h5>
-              <h5>먼저오셔서 말걸어주시면 감사해요!</h5>
-            </div>
-            <div class="member-comment" id="commentList"></div>
-            <div class="member-comment-input">
-              <div class="input-group input-group-lg">
-                <span class="input-group-text">Comment</span>
-                <textarea class="form-control" id="comment" aria-label="With textarea"></textarea>
-              </div>
-              <div style="width: 100%; padding-top: 10px; display: flex; justify-content: flex-end;">
-                <button class="btn btn-primary px-4" type="button" id="createBtn">
-                  등록
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="member-content">
-            <div class="member-content-image"
-              style="background-image: url(../../images/daeun/freedom.JPG); background-size: 500px 350px;">
-            </div>
-            <div class="member-content-description">
-              <H3>김다은의 장점을 알아보자</H3>
-              <h5>저는 배려와 책임감이 있다고 생각됩니다.</h5>
-              <h5>또한 저는 한가지 일에 집중을 잘합니다.</h5>
-              <h5>저는 항상 최선을 다 할려고 노력합니다.</h5>
-              <h5>제 장점을 활용해 열심히 하겠습니다!</h5>
-              <h5>잘부탁드립니다!!</h5>
-            </div>
-            <div class="member-comment" id="commentList"></div>
-            <div class="member-comment-input">
-              <div class="input-group input-group-lg">
-                <span class="input-group-text">Comment</span>
-                <textarea class="form-control" id="comment" aria-label="With textarea"></textarea>
-              </div>
-              <div style="width: 100%; padding-top: 10px; display: flex; justify-content: flex-end;">
-                <button class="btn btn-primary px-4" type="button" id="createBtn">
-                  등록
-                </button>
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card">
+            <img src="../../images/daeun/niagara.JPG" class="card-img-top" alt="나이아가라 폭포">
+            <div class="card-body">
+              <h3>김다은의 MBTI 및 성격을 알아보자</h3>
+              <p>사진을 보고 제 MBTI를 예측해 주세요~<br>
+              예측하셨나요? 두근두근 정답은?<br>
+              저는 INFP입니다.<br>
+              처음엔 소심하고 말도 없지만 친해지면 활발하게 활발한 모습도 보여줍니다.<br>
+              먼저오셔서 말걸어주시면 감사해요!</p>
+              <div class="comment-area">
+                <div class="member-comment" id="commentList"></div>
+                <div class="member-comment-input">
+                  <div class="input-group input-group-lg">
+                    <span class="input-group-text">Comment</span>
+                    <textarea class="form-control" id="comment" aria-label="With textarea"></textarea>
+                  </div>
+                  <div style="width: 100%; padding-top: 10px; display: flex; justify-content: flex-end;">
+                    <button class="btn btn-primary px-4" type="button" id="createBtn">
+                      등록
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col">
-          <div class="member-content">
-            <div class="member-content-image"
-              style="background-image: url(../../images/daeun/sparta.JPG); background-size: 500px 350px;">
-            </div>
-            <div class="member-content-description">
-              <H3>김다은의 협업 스타일을 알아보자</H3>
-              <h5>저는 남을 서포트에 적합하다고 생각합니다.</h5>
-              <h5>저는 직접적으로 의견을 내기보다는 주로 듣는편입니다.</h5>
-              <h5>혼자 생각을 정리하고 추후에 자신의 의견을 이야기하는 편입니다.</h5>
-              <h5>앞으로 최선을 다해 협업하겠습니다.</h5>
-              <h5>잘부탁드립니다!!</h5>
-            </div>
-            <div class="member-comment" id="commentList"></div>
-            <div class="member-comment-input">
-              <div class="input-group input-group-lg">
-                <span class="input-group-text">Comment</span>
-                <textarea class="form-control" id="comment" aria-label="With textarea"></textarea>
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card">
+            <img src="../../images/daeun/freedom.JPG" class="card-img-top" alt="나이아가라 폭포">
+            <div class="card-body">
+              <h3>김다은의 장점을 알아보자</h3>
+              <p>저는 배려와 책임감이 있다고 생각됩니다.<br>
+              또한 저는 한가지 일에 집중을 잘합니다.<br>
+              저는 항상 최선을 다 할려고 노력합니다.<br>
+              제 장점을 활용해 열심히 하겠습니다!<br>
+              잘부탁드립니다!!</p>
+              <div class="comment-area">
+                <div class="member-comment" id="commentList"></div>
+                <div class="member-comment-input">
+                  <div class="input-group input-group-lg">
+                    <span class="input-group-text">Comment</span>
+                    <textarea class="form-control" id="comment" aria-label="With textarea"></textarea>
+                  </div>
+                  <div style="width: 100%; padding-top: 10px; display: flex; justify-content: flex-end;">
+                    <button class="btn btn-primary px-4" type="button" id="createBtn">
+                      등록
+                    </button>
+                  </div>
+                </div>
               </div>
-              <div style="width: 100%; padding-top: 10px; display: flex; justify-content: flex-end;">
-                <button class="btn btn-primary px-4" type="button" id="createBtn">
-                  등록
-                </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card">
+            <img src="../../images/daeun/sparta.JPG" class="card-img-top" alt="나이아가라 폭포">
+            <div class="card-body">
+              <h3>김다은의 협업 스타일을 알아보자</h3>
+              <p>저는 남을 서포트에 적합하다고 생각합니다.<br>
+              저는 직접적으로 의견을 내기보다는 주로 듣는편입니다.<br>
+              혼자 생각을 정리하고 추후에 자신의 의견을 이야기하는 편입니다.<br>
+              앞으로 최선을 다해 협업하겠습니다.<br>
+              잘부탁드립니다!!</p>
+              <div class="comment-area">
+                <div class="member-comment" id="commentList"></div>
+                <div class="member-comment-input">
+                  <div class="input-group input-group-lg">
+                    <span class="input-group-text">Comment</span>
+                    <textarea class="form-control" id="comment" aria-label="With textarea"></textarea>
+                  </div>
+                  <div style="width: 100%; padding-top: 10px; display: flex; justify-content: flex-end;">
+                    <button class="btn btn-primary px-4" type="button" id="createBtn">
+                      등록
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
