@@ -167,7 +167,7 @@
         import { doc, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
         // 사용자
-        const USER = "kim";
+        const USER = "heo";
 
         // 덧글이 출력될 div 영역 오브젝트
         const commentListObject = document.querySelectorAll('.commentListObject');
@@ -298,7 +298,7 @@
 
             const doc = {
                 "content_id": Number(contentId)
-                , "content_user": "kim"
+                , "content_user": USER
                 , "comment": commentText
                 , "create_dt": new Date()
             };
