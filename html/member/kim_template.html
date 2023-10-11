@@ -285,7 +285,6 @@
 
         // 덧글 등록하기
         const createComment = async (contentId) => {
-
             let commentText = "";
 
             commentTexts.forEach((text) => {
@@ -406,14 +405,14 @@
                             <h5>I 답게 많이 소심한편이에요~ 지나가다 인사 먼져해주시면 우렁차게 인사드리겠습니다!!
                                 <h5></h5>
                         </div>
-                        <div class="member-comment" id="commentList"></div>
+                        <div class="member-comment commentListObject" id="commentList" data-contentId="0"></div>
                         <div class="member-comment-input">
                             <div class="input-group input-group-lg">
                                 <span class="input-group-text">Comment</span>
-                                <textarea class="form-control" id="comment" aria-label="With textarea"></textarea>
+                                <textarea class="form-control commentText" id="comment" aria-label="With textarea" data-contentId="0"></textarea>
                             </div>
                             <div style="width: 100%; padding-top: 10px; display: flex; justify-content: flex-end;">
-                                <button class="btn btn-primary px-4" type="button" id="createBtn">
+                                <button class="btn btn-primary px-4 createBtn" type="button" id="createBtn" data-contentId="0">
                                     등록
                                 </button>
                             </div>
@@ -432,14 +431,14 @@
                             <h5>사장님이 안계실때도 내 가게다 라는 생각을 가지고 일을 했었는데 사장님이 좋게 봐주셔서 밥도 많이 사주시고 챙겨주셨어요.</h5>
                             </h5>
                         </div>
-                        <div class="member-comment" id="commentList"></div>
+                        <div class="member-comment commentListObject" id="commentList" data-contentId="1"></div>
                         <div class="member-comment-input">
                             <div class="input-group input-group-lg">
                                 <span class="input-group-text">Comment</span>
-                                <textarea class="form-control" id="comment" aria-label="With textarea"></textarea>
+                                <textarea class="form-control commentText" id="comment" aria-label="With textarea" data-contentId="1"></textarea>
                             </div>
                             <div style="width: 100%; padding-top: 10px; display: flex; justify-content: flex-end;">
-                                <button class="btn btn-primary px-4" type="button" id="createBtn">
+                                <button class="btn btn-primary px-4 createBtn" type="button" id="createBtn" data-contentId="1">
                                     등록
                                 </button>
                             </div>
@@ -459,14 +458,14 @@
                             <h5>그만큼 팀원간 유대가 중요하기에 앞으로 프로젝트 진행시 회식을 추진할수 있도록 해보겠습니다~</h5>
                             <h5>회식을 통해 더욱 유대감을 형성하면 힘든 프로젝트도 잘해쳐나갈것 입니다!</h5>
                         </div>
-                        <div class="member-comment" id="commentList"></div>
+                        <div class="member-comment commentListObject" id="commentList" data-contentId="2"></div>
                         <div class="member-comment-input">
                             <div class="input-group input-group-lg">
                                 <span class="input-group-text">Comment</span>
-                                <textarea class="form-control" id="comment" aria-label="With textarea"></textarea>
+                                <textarea class="form-control commentText" id="comment" aria-label="With textarea" data-contentId="2"></textarea>
                             </div>
                             <div style="width: 100%; padding-top: 10px; display: flex; justify-content: flex-end;">
-                                <button class="btn btn-primary px-4" type="button" id="createBtn">
+                                <button class="btn btn-primary px-4 createBtn" type="button" id="createBtn" data-contentId="2">
                                     등록
                                 </button>
                             </div>
