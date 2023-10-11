@@ -189,7 +189,6 @@
 
         // 덧글 리스트 가져오기
         const getComment = async () => {
-
             // 덧글 정렬을 위한 쿼리
             const comments = collection(db, "comments");
             const sortedComments = query(comments, orderBy("create_dt", "asc"));
@@ -230,7 +229,6 @@
 
             // 삭제 버튼 이벤트 리스너 등록
             const deleteButtons = document.querySelectorAll('.deleteBtn');
-
             deleteButtons.forEach((deleteBtn) => {
                 deleteBtn.addEventListener('click', function (event) {
                     const contentId = event.target.getAttribute("data-contentId");
@@ -285,7 +283,6 @@
 
         // 덧글 등록하기
         const createComment = async (contentId) => {
-
             let commentText = "";
 
             commentTexts.forEach((text) => {
