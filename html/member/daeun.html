@@ -303,11 +303,17 @@
                     d="M1 8a7 7 0 1 1 14 0A7 7 0 0 1 1 8Zm15 0A8 8 0 1 0 0 8a8 8 0 0 0 16 0Zm-8.006 4.158c-1.57 0-2.654-.902-2.719-2.115h1.237c.14.72.832 1.031 1.529 1.031.791 0 1.57-.597 1.57-1.681 0-.967-.732-1.57-1.582-1.57-.767 0-1.242.45-1.435.808H5.445L5.791 4h4.705v1.103H6.875l-.193 2.343h.064c.17-.258.715-.68 1.611-.68 1.383 0 2.561.944 2.561 2.585 0 1.687-1.184 2.806-2.924 2.806Z" />
                 </svg>
               </a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Visitors' Book</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Login</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">
+            <li class="nav-item"><a class="nav-link" href="../main/index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="../book/test.html">Visitors' Book</a></li>
+            <li class="nav-item" id="loginNavItem"><a class="nav-link" href="../login/login.html">Login</a>
+            </li>
+            <li class="nav-item" id="userNavItem"><a class="nav-link" href="#">
+                <span id="userEmail"></span>
               </a></li>
+            <li class="nav-item"><span id="clock" class="nav-link" href="#"></span></li>
+            <li class="nav-item" id="logoutNavItem" style="display: none;">
+              <a class="nav-link" href="#" id="logoutButton">Logout</a>
+            </li>
           </ul>
         </div>
       </div>
@@ -450,6 +456,103 @@
   <!-- Footer End -->
 
   <script src="../../js/bootstrap.bundle.min.js"></script>
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAz6p5Wza5KhbEqeTMFti77zc7wjfyciJg",
+      authDomain: "miniproject1-5-book.firebaseapp.com",
+      projectId: "miniproject1-5-book",
+      storageBucket: "miniproject1-5-book.appspot.com",
+      messagingSenderId: "665433573451",
+      appId: "1:665433573451:web:6fb2e14433450e6a28a5ce",
+      measurementId: "G-8TJ2GHPBR2"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+
+    // 페이지 로드 시 로그인 상태 확인
+    onAuthStateChanged(auth, (user) => {
+      const userEmailElement = document.getElementById("userEmail");
+      const loginNavItem = document.getElementById("loginNavItem");
+      const userNavItem = document.getElementById("userNavItem");
+      const logoutNavItem = document.getElementById("logoutNavItem");
+      const logoutButton = document.getElementById("logoutButton");
+
+
+      if (user) {
+        // 사용자가 로그인한 경우
+        const userEmail = user.email;
+        userEmailElement.textContent = userEmail;
+        // 여기에서 로그인 상태를 유지하는 로직을 추가할 수 있습니다.
+
+        // 로그인 버튼 숨기기, 사용자 정보 표시
+        loginNavItem.style.display = "none";
+        userNavItem.style.display = "block";
+        logoutNavItem.style.display = "block";
+
+
+        // 로그아웃 버튼 클릭 시 로그아웃
+        logoutButton.addEventListener("click", () => {
+          signOut(auth)
+            .then(() => {
+              // 로그아웃 성공 시 페이지 새로고침
+              window.location.reload();
+            })
+            .catch((error) => {
+              console.error("로그아웃 중 오류 발생:", error);
+            });
+        });
+      } else {
+        // 사용자가 로그인하지 않은 경우
+        userEmailElement.textContent = ""; // 빈 문자열로 설정
+
+        // 로그인 버튼 표시, 사용자 정보 숨기기
+        loginNavItem.style.display = "block";
+        userNavItem.style.display = "none";
+        logoutNavItem.style.display = "none";
+      }
+    });
+  </script>
+
+  <script>
+    function startTime() {
+      var today = new Date();
+
+      var dd = today.getDate();
+      var mm = today.getMonth() + 1;
+      var yyyy = today.getFullYear();
+
+      if (dd < 10) {
+        dd = '0' + dd
+      }
+      if (mm < 10) {
+        mm = '0' + mm
+      }
+      var h = today.getHours();
+      var m = today.getMinutes();
+      var s = today.getSeconds();
+      m = checkTime(m);
+      s = checkTime(s);
+      document.getElementById('clock').innerHTML = yyyy + "-" + mm + "-" + dd + " " + h + ":" + m + ":" + s;
+      setTimeout(startTime, 500);
+    }
+    function checkTime(i) {
+      if (i < 10) { i = "0" + i };
+      return i;
+    }
+    startTime();
+  </script>
 </body>
 
 </html>
